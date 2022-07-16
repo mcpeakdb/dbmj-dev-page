@@ -37,6 +37,7 @@
   text-align: left;
   background-color: $dbm-green;
   padding: 0;
+  overflow: hidden;
 
   .icon-wrapper {
     padding: 1rem;

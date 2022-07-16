@@ -12,6 +12,7 @@ import MainLayout from "@/views/layouts/MainLayout.vue";
 import StepZero from "@/components/StepZero.vue";
 import StepOne from "@/components/StepOne.vue";
 import StepTwo from "@/components/StepTwo.vue";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "HomeView",
@@ -27,6 +28,11 @@ export default defineComponent({
     const setStep = (newStep: number) => {
       step.value = newStep;
     };
+
+    const route = useRoute();
+    if (route.query.step && typeof route.query.step === "string") {
+      setStep(parseInt(route.query.step));
+    }
 
     return {
       step,

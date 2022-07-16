@@ -4,10 +4,17 @@
       <h1>Hello world,</h1>
       <h2>Welcome to the future of web development!</h2>
       <h3>
-        Press any key to continue<span v-if="!keyPressed">...</span
+        Press 1 to Start Over. Press 2 to skip to the end. <br />Press any other
+        key to continue<span v-if="!keyPressed">...</span
         ><span v-if="!keyPressed" class="cursor">&nbsp;</span>
       </h3>
-      <div class="typewriter" v-if="keyPressed">
+      <div class="typewriter" v-if="keyPressed === '1'">
+        Starting over...<span class="cursor">&nbsp;</span>
+      </div>
+      <div class="typewriter" v-else-if="keyPressed === '2'">
+        Skipping to the end...<span class="cursor">&nbsp;</span>
+      </div>
+      <div class="typewriter" v-else-if="keyPressed">
         Loading the 1990s...<span class="cursor">&nbsp;</span>
       </div>
     </div>
@@ -25,7 +32,6 @@ $terminalGreen: #41ff00;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   text-align: center;
 
   &::before {
@@ -61,6 +67,7 @@ $terminalGreen: #41ff00;
     white-space: nowrap;
     margin: 0 auto;
     animation: typing 3.5s steps(40, end);
+    padding-bottom: 2rem;
   }
 }
 
@@ -151,35 +158,46 @@ $terminalGreen: #41ff00;
 </style>
 
 <script lang="ts">
+import router from "@/router";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "StepOne",
   setup(props, { emit }) {
-    const mainLayout = document.getElementById("main-layout-content");
-
-    const submit = () => {
-      keyPressed.value = true;
-      if (mainLayout) {
-        mainLayout.style.backgroundColor = "black";
+    const submit = (key: string) => {
+      if (keyPressed.value) {
+        return;
       }
+      keyPressed.value = key;
+
+      window.scrollTo(0, document.body.scrollHeight);
 
       setTimeout(() => {
-        emit("submit");
+        if (key === "1") {
+          router.push("/?step=0");
+          document.body.style.backgroundColor = "white";
+        } else if (key === "2") {
+          router.push("/?step=2");
+        } else {
+          emit("submit");
+        }
+
+        keyPressed.value = "";
       }, 5000);
     };
 
-    window.addEventListener("keyup", () => {
-      submit();
-    });
+    const keyupListener = (e: KeyboardEvent) => {
+      submit(e.key);
+    };
 
-    if (mainLayout) {
-      mainLayout.addEventListener("mouseup", () => {
-        submit();
-      });
-    }
+    const mouseupListener = () => {
+      submit("mouse");
+    };
 
-    const keyPressed = ref(false);
+    window.addEventListener("keyup", keyupListener);
+    window.addEventListener("mouseup", mouseupListener);
+
+    const keyPressed = ref("");
 
     return {
       keyPressed,

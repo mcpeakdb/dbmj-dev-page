@@ -1,69 +1,92 @@
 <template>
-  <div class="step-content step-zero-content">
-    <div>
-      <span
-        class="hello-text"
-        :style="showHello ? 'color:black' : 'color:white'"
-        >hello...?</span
-      >
+  <div class="step-zero-wrapper">
+    <div class="step-content step-zero-content">
+      <div>
+        <span
+          class="hello-text"
+          :style="showHello ? 'color:black' : 'color:white'"
+          >hello...?</span
+        >
+      </div>
+      <div class="button-wrapper">
+        <button @click="submit()">
+          <span v-if="!pressed">Press Me</span><span v-else>YAY!</span>
+        </button>
+      </div>
+      <div>
+        <span
+          class="hello-text"
+          :style="showHello2 ? 'color:black' : 'color:white'"
+          >are you there?</span
+        >
+      </div>
     </div>
-    <div class="button-wrapper">
-      <button @click="submit()">
-        <span v-if="!pressed">Press Me</span><span v-else>YAY!</span>
-      </button>
-    </div>
-    <div>
-      <span
-        class="hello-text"
-        :style="showHello2 ? 'color:black' : 'color:white'"
-        >are you there?</span
-      >
-    </div>
+    <nav>
+      <router-link to="/?step=0">Start Over</router-link> |
+      <router-link to="/?step=2">Skip to End</router-link>
+    </nav>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.step-zero-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin: 0 auto;
-
-  > * {
-    margin: 1rem;
-  }
-
-  .hello-text {
+<style lang="scss">
+.step-zero-wrapper {
+  height: 100vh;
+  nav {
     text-align: center;
-    transition: all 1s;
-  }
-  .button-wrapper {
-    background: #666;
-    border: 0.2rem solid #333;
-    border-radius: 1rem;
-    // max-height: 50%;
-    // max-width: 80%;
-    height: 20rem;
-    width: 20rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 0.2rem;
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
 
-    button {
-      background: #ff0000;
-      box-shadow: 3px 3px 10px 0px #333;
-      color: white;
-      font-size: 2rem;
-      border-radius: 50%;
-      height: 10rem;
-      width: 10rem;
-      &:hover {
-        background: #ff0000aa;
+    a {
+      font-weight: bold;
+      color: $dbm-blue-secondary;
+
+      &.router-link-exact-active {
+        color: $dbm-green;
       }
+    }
+  }
+  .step-zero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 auto;
 
-      &:active {
-        box-shadow: none;
-        transform: translate(0.25rem, 0.25rem);
+    > * {
+      margin: 1rem;
+    }
+
+    .hello-text {
+      text-align: center;
+      transition: all 1s;
+    }
+    .button-wrapper {
+      background: #666;
+      border: 0.2rem solid #333;
+      border-radius: 1rem;
+      height: 20rem;
+      width: 20rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        background: #ff0000;
+        box-shadow: 3px 3px 10px 0px #333;
+        color: white;
+        font-size: 2rem;
+        border-radius: 50%;
+        height: 10rem;
+        width: 10rem;
+        &:hover {
+          background: #ff0000aa;
+        }
+
+        &:active {
+          box-shadow: none;
+          transform: translate(0.25rem, 0.25rem);
+        }
       }
     }
   }
@@ -80,6 +103,7 @@ export default defineComponent({
       pressed.value = true;
       setTimeout(() => {
         emit("submit");
+        document.body.style.backgroundColor = "black";
       }, 500);
     };
 

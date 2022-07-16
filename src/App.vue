@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view :key="route.fullPath" />
 </template>
 
 <style lang="scss">
@@ -8,9 +8,6 @@ body {
 }
 
 #app {
-  * {
-    box-sizing: border-box !important;
-  }
   .step-content {
     width: 100%;
     height: 100%;
@@ -34,15 +31,33 @@ body {
 
 @keyframes screen-on {
   from {
+    overflow: hidden;
     position: absolute;
     height: 0%;
     top: 50%;
   }
 
   to {
+    overflow: auto;
     position: absolute;
     height: calc(100vh - 25px);
     top: 0%;
   }
 }
 </style>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useRoute } from "vue-router";
+
+export default defineComponent({
+  name: "App",
+  setup() {
+    const route = useRoute();
+
+    return {
+      route,
+    };
+  },
+});
+</script>
