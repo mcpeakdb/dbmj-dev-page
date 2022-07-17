@@ -1,6 +1,6 @@
 <template>
-  <div class="fake-window">
-    <div class="fake-window-topbar">
+  <div class="fake-window" ref="fakeWindow">
+    <div class="fake-window-topbar" @mousedown="dragMouseDown">
       {{ title }}
       <div>
         <button>_</button>
@@ -19,8 +19,10 @@
   max-width: 100%;
   width: fit-content;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   background-color: black;
+  top: 5rem;
+  left: 5rem;
 
   .fake-window-topbar {
     display: flex;
@@ -55,7 +57,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, nextTick, onMounted, ref } from "vue";
 
 export default defineComponent({
   name: "FakeWindow",
@@ -70,9 +72,55 @@ export default defineComponent({
     const close = () => {
       emit("close");
     };
+    const fakeWindow = ref<HTMLElement>();
+
+    let pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+    const dragMouseDown = (e: MouseEvent) => {
+      e = e || window.event;
+      e.preventDefault();
+
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+    };
+
+    function elementDrag(e: MouseEvent) {
+      e = e || window.event;
+      e.preventDefault();
+
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+
+      // set the element's new position:
+      if (fakeWindow.value) {
+        fakeWindow.value.style.top = fakeWindow.value.offsetTop - pos2 + "px";
+        fakeWindow.value.style.left = fakeWindow.value.offsetLeft - pos1 + "px";
+      }
+
+      return null;
+    }
+
+    function closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+      return null;
+    }
 
     return {
+      fakeWindow,
       close,
+      dragMouseDown,
     };
   },
 });

@@ -1,20 +1,22 @@
 <template>
   <div class="step-content step-two-content animate-screen-on">
-    <div>
-      <div @click="openFile('aboutme')" class="icon-wrapper">
+    <div class="fake-desktop">
+      <div @click="openFile('aboutme.html')" class="icon-wrapper">
         <img src="@/assets/icons/html_95.png" alt="html icon" />
         <p>aboutme.html</p>
       </div>
-      <div @click="openFile('dancingbaby')" class="icon-wrapper">
+      <div @click="openFile('dancingbaby.jpeg')" class="icon-wrapper">
         <img src="@/assets/icons/jpg_95.png" alt="jpg icon" />
         <p>dancingbaby.jpeg</p>
       </div>
 
       <FakeWindow
-        v-if="filesOpen.includes('aboutme')"
+        v-if="filesOpen.includes('aboutme.html')"
         title="aboutme.html"
         @close="
-          filesOpen = filesOpen.filter((fileOpen) => fileOpen !== 'aboutme')
+          filesOpen = filesOpen.filter(
+            (fileOpen) => fileOpen !== 'aboutme.html'
+          )
         "
       >
         <div class="old-web-page">
@@ -23,10 +25,12 @@
         </div>
       </FakeWindow>
       <FakeWindow
-        v-if="filesOpen.includes('dancingbaby')"
+        v-if="filesOpen.includes('dancingbaby.jpeg')"
         title="dancingbaby.jpeg"
         @close="
-          filesOpen = filesOpen.filter((fileOpen) => fileOpen !== 'dancingbaby')
+          filesOpen = filesOpen.filter(
+            (fileOpen) => fileOpen !== 'dancingbaby.jpeg'
+          )
         "
       >
         <img
@@ -37,6 +41,9 @@
     <div class="fake-start-bar">
       <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
         Start
+      </button>
+      <button v-for="fileOpen in filesOpen" :key="fileOpen">
+        {{ fileOpen }}
       </button>
 
       <button class="taskbar">{{ time }}</button>
@@ -50,15 +57,17 @@
   background-color: $dbm-green;
   padding: 0;
   overflow: hidden;
-
-  .icon-wrapper {
-    padding: 1rem;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    display: inline-block;
-    img {
-      width: 2.5rem;
+  .fake-desktop {
+    display: relative;
+    .icon-wrapper {
+      padding: 1rem;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      img {
+        width: 2.5rem;
+      }
     }
   }
 
@@ -79,13 +88,19 @@
       border-left: ridge 0.2rem white;
       border-bottom: ridge 0.2rem black;
       border-right: ridge 0.2rem black;
+      max-width: 23%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       &.taskbar {
         float: right;
-        padding-left: 2rem;
+        padding-left: 1rem;
+        min-width: 4.8rem;
         border-top: inset 0.2rem grey;
         border-left: inset 0.2rem grey;
         border-bottom: inset 0.2rem white;
         border-right: inset 0.2rem white;
+        text-overflow: clip;
       }
     }
 
@@ -132,6 +147,9 @@ export default defineComponent({
     const time = ref<string>("");
 
     const openFile = (fileName: string) => {
+      if (filesOpen.value.includes(fileName)) {
+        return;
+      }
       filesOpen.value.push(fileName);
     };
 
