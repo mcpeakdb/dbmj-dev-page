@@ -177,31 +177,37 @@ export default defineComponent({
           router.push("/?step=0");
           document.body.style.backgroundColor = "white";
         } else if (key === "2") {
-          router.push("/?step=2");
+          router.push("/?step=" + props.finalStep);
         } else {
           emit("submit");
         }
 
         keyPressed.value = "";
-      }, 5000);
+      }, 4000);
     };
 
-    const keyupListener = (e: KeyboardEvent) => {
+    const keyupSubmit = (e: KeyboardEvent) => {
       submit(e.key);
     };
 
-    const mouseupListener = () => {
+    const mouseupSubmit = () => {
       submit("mouse");
     };
 
-    window.addEventListener("keyup", keyupListener);
-    window.addEventListener("mouseup", mouseupListener);
+    window.addEventListener("keyup", keyupSubmit);
+    window.addEventListener("mouseup", mouseupSubmit);
 
     const keyPressed = ref("");
 
     return {
       keyPressed,
     };
+  },
+  props: {
+    finalStep: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ["submit"],
 });

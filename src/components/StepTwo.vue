@@ -1,16 +1,16 @@
 <template>
   <div class="step-content step-two-content animate-screen-on">
     <div>
-      <div @click="openFile('resume')" class="icon-wrapper">
+      <div @click="openFile('aboutme')" class="icon-wrapper">
         <img />
-        <p>resume.html</p>
+        <p>aboutme.html</p>
       </div>
       <div @click="openFile('dancingbaby')" class="icon-wrapper">
         <img />
         <p>dancingbaby.jpg</p>
       </div>
 
-      <div v-if="filesOpen.includes('resume')" class="fake-window">
+      <div v-if="filesOpen.includes('aboutme')" class="fake-window">
         <div class="old-web-page">
           <span>My name is Danny McPeak Jr</span><br />
           <span>I am a Full Stack Web Developer</span>
@@ -142,6 +142,12 @@ export default defineComponent({
       menuOpened,
       time,
     };
+  },
+  props: {
+    finalStep: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ["submit"],
 });

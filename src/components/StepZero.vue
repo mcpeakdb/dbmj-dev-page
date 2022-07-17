@@ -23,7 +23,7 @@
     </div>
     <nav>
       <router-link to="/?step=0">Start Over</router-link> |
-      <router-link to="/?step=2">Skip to End</router-link>
+      <router-link :to="'/?step=' + finalStep">Skip to End</router-link>
     </nav>
   </div>
 </template>
@@ -125,6 +125,12 @@ export default defineComponent({
       showHello,
       showHello2,
     };
+  },
+  props: {
+    finalStep: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ["submit"],
 });

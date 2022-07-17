@@ -1,8 +1,8 @@
 <template>
   <MainLayout>
-    <StepZero v-if="step === 0" @submit="setStep(1)" />
-    <StepOne v-if="step === 1" @submit="setStep(2)" />
-    <StepTwo v-if="step === 2" @submit="setStep(3)" />
+    <StepZero v-if="step === 0" :finalStep="finalStep" @submit="setStep(1)" />
+    <StepOne v-if="step === 1" :finalStep="finalStep" @submit="setStep(2)" />
+    <StepTwo v-if="step === 2" :finalStep="finalStep" @submit="setStep(3)" />
   </MainLayout>
 </template>
 
@@ -24,6 +24,7 @@ export default defineComponent({
   },
   setup() {
     const step = ref(0);
+    const finalStep = 2;
 
     const setStep = (newStep: number) => {
       step.value = newStep;
@@ -37,6 +38,7 @@ export default defineComponent({
     return {
       step,
       setStep,
+      finalStep,
     };
   },
 });
