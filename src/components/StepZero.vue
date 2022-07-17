@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .step-zero-wrapper {
   height: 100vh;
   nav {

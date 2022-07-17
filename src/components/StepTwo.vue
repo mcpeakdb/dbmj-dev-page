@@ -2,25 +2,37 @@
   <div class="step-content step-two-content animate-screen-on">
     <div>
       <div @click="openFile('aboutme')" class="icon-wrapper">
-        <img />
+        <img src="@/assets/icons/html_95.png" alt="html icon" />
         <p>aboutme.html</p>
       </div>
       <div @click="openFile('dancingbaby')" class="icon-wrapper">
-        <img />
-        <p>dancingbaby.jpg</p>
+        <img src="@/assets/icons/jpg_95.png" alt="jpg icon" />
+        <p>dancingbaby.jpeg</p>
       </div>
 
-      <div v-if="filesOpen.includes('aboutme')" class="fake-window">
+      <FakeWindow
+        v-if="filesOpen.includes('aboutme')"
+        title="aboutme.html"
+        @close="
+          filesOpen = filesOpen.filter((fileOpen) => fileOpen !== 'aboutme')
+        "
+      >
         <div class="old-web-page">
           <span>My name is Danny McPeak Jr</span><br />
           <span>I am a Full Stack Web Developer</span>
         </div>
-      </div>
-      <div v-if="filesOpen.includes('dancingbaby')">
+      </FakeWindow>
+      <FakeWindow
+        v-if="filesOpen.includes('dancingbaby')"
+        title="dancingbaby.jpeg"
+        @close="
+          filesOpen = filesOpen.filter((fileOpen) => fileOpen !== 'dancingbaby')
+        "
+      >
         <img
           src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
         />
-      </div>
+      </FakeWindow>
     </div>
     <div class="fake-start-bar">
       <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
@@ -43,21 +55,10 @@
     padding: 1rem;
     color: white;
     cursor: pointer;
-  }
-
-  .fake-window {
-    border: 0.2rem inset lightgrey;
-    max-height: 100%;
-    max-width: 100%;
-    height: 20rem;
-    width: 20rem;
-    box-sizing: border-box;
-    .old-web-page {
-      box-sizing: border-box;
-      padding: 1rem;
-      width: 100%;
-      height: 100%;
-      background-image: url("@/assets/backgrounds/OldPaper.gif");
+    text-align: center;
+    display: inline-block;
+    img {
+      width: 2.5rem;
     }
   }
 
@@ -100,9 +101,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import FakeWindow from "@/components/widgets/FakeWindow.vue";
 
 export default defineComponent({
-  name: "StepZero",
+  name: "StepTwo",
+  components: {
+    FakeWindow,
+  },
   setup(props, { emit }) {
     const submit = () => {
       emit("submit");
