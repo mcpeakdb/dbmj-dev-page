@@ -3,9 +3,9 @@
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
       {{ title }}
       <div>
-        <button>_</button>
-        <button>&#x26F6;</button>
-        <button @click="close()">X</button>
+        <button><span>_</span></button>
+        <button><span>&#x26F6;</span></button>
+        <button @click="close()"><span>X</span></button>
       </div>
     </div>
     <slot></slot>
@@ -45,6 +45,9 @@
         border-left: ridge 0.2rem white;
         border-bottom: ridge 0.2rem black;
         border-right: ridge 0.2rem black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
