@@ -1,24 +1,12 @@
 <template>
   <div class="step-zero-wrapper">
     <div class="step-content step-zero-content">
-      <div>
-        <span
-          class="hello-text"
-          :style="showHello ? 'color:black' : 'color:white'"
-          >hello...?</span
-        >
-      </div>
       <div class="button-wrapper">
         <button @click="submit()">
-          <span v-if="!pressed">Press Me</span><span v-else>YAY!</span>
+          <span v-if="!pressed && showPressMe2">You know you want to</span>
+          <span v-else-if="!pressed && showPressMe">Press Me</span>
+          <span v-else-if="pressed">YAY!</span>
         </button>
-      </div>
-      <div>
-        <span
-          class="hello-text"
-          :style="showHello2 ? 'color:black' : 'color:white'"
-          >are you there?</span
-        >
       </div>
     </div>
     <nav>
@@ -63,8 +51,12 @@
     }
     .button-wrapper {
       background: #666;
-      border: 0.2rem solid #333;
+      border-right: 0.2rem solid #333;
+      border-bottom: 0.2rem solid #333;
+      border-left: 0.2rem solid #999;
+      border-top: 0.2rem solid #999;
       border-radius: 1rem;
+      box-shadow: 0.3rem 0.3rem 1rem 0 #333;
       height: 20rem;
       width: 20rem;
       display: flex;
@@ -73,12 +65,15 @@
 
       button {
         background: #ff0000;
-        box-shadow: 3px 3px 10px 0px #333;
+        box-shadow: 0.3rem 0.3rem 1rem 0 #333;
         color: white;
-        font-size: 2rem;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-size: 1.5rem;
         border-radius: 50%;
         height: 10rem;
         width: 10rem;
+        padding: 1rem;
         &:hover {
           background: #ff0000aa;
         }
@@ -108,22 +103,24 @@ export default defineComponent({
     };
 
     const pressed = ref(false);
-    const showHello = ref(false);
-    const showHello2 = ref(false);
+
+    const showPressMe = ref(false);
 
     setTimeout(() => {
-      showHello.value = true;
-    }, 5000);
-
-    setTimeout(() => {
-      showHello2.value = true;
+      showPressMe.value = true;
     }, 10000);
+
+    const showPressMe2 = ref(false);
+
+    setTimeout(() => {
+      showPressMe2.value = true;
+    }, 20000);
 
     return {
       submit,
       pressed,
-      showHello,
-      showHello2,
+      showPressMe,
+      showPressMe2,
     };
   },
   props: {

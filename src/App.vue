@@ -30,18 +30,22 @@ body {
 }
 
 @keyframes screen-on {
-  from {
+  0% {
     overflow: hidden;
     position: absolute;
     height: 0%;
     top: 50%;
+    opacity: 0;
   }
-
-  to {
+  75% {
+    opacity: 50%;
+  }
+  100% {
     overflow: auto;
     position: absolute;
     height: calc(100vh - 25px);
     top: 0%;
+    opacity: 100%;
   }
 }
 </style>

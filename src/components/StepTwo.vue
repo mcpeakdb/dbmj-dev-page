@@ -46,7 +46,7 @@
   }
 
   .fake-window {
-    border: 2px inset grey;
+    border: 0.2rem inset lightgrey;
     max-height: 100%;
     max-width: 100%;
     height: 20rem;
