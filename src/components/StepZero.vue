@@ -98,7 +98,9 @@ export default defineComponent({
       pressed.value = true;
       setTimeout(() => {
         emit("submit");
-        document.body.style.backgroundColor = "black";
+        setTimeout(() => {
+          document.body.style.backgroundColor = "black";
+        }, 500);
       }, 500);
     };
 
