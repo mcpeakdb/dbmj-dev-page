@@ -60,7 +60,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, nextTick, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "FakeWindow",
