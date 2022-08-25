@@ -43,7 +43,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    .old-web-page {
+    .content-wrapper > * {
       width: 100%;
       height: 100%;
     }

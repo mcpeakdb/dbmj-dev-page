@@ -1,7 +1,7 @@
 <template>
   <div @click="openFile(name)" class="icon-wrapper">
     <img :src="getImgUrl('icons/' + fileType + '_95.png')" :alt="name" />
-    <p>{{ name }}</p>
+    <p>{{ title }}</p>
   </div>
 </template>
 
@@ -15,6 +15,8 @@ export default defineComponent({
       const extension = props.name.split(".")[1];
       if (["png", "jpg", "jpeg"].includes(extension)) {
         return "jpg";
+      } else if (["com", "html"].includes(extension)) {
+        return "html";
       } else {
         return extension;
       }
@@ -37,6 +39,10 @@ export default defineComponent({
   emits: ["openFile"],
   props: {
     name: {
+      type: String,
+      required: true,
+    },
+    title: {
       type: String,
       required: true,
     },
