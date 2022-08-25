@@ -7,12 +7,14 @@
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
       {{ title }}
       <div>
-        <button @click="minimize()"><span>_</span></button>
+        <button @click="minimize()"><span>&#128469;&#xFE0E;</span></button>
         <button v-if="isMaximized" @click="unmaximize()">
-          <span>&#x26F6;</span>
+          <span>&#128471;&#xFE0E;</span>
         </button>
-        <button v-else @click="maximize()"><span>&#x26F6;</span></button>
-        <button @click="close()"><span>X</span></button>
+        <button v-else @click="maximize()">
+          <span>&#x1F5D6;&#xFE0E;</span>
+        </button>
+        <button @click="close()"><span>&#10006;&#xFE0E;</span></button>
       </div>
     </div>
     <slot></slot>
