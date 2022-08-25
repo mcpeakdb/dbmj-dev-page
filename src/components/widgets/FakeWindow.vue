@@ -5,7 +5,7 @@
     ref="fakeWindow"
   >
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
-      {{ title }}
+      {{ file.filename }}
       <div>
         <button @click="minimize()"><span>&#128469;&#xFE0E;</span></button>
         <button v-if="isMaximized" @click="unmaximize()">
@@ -17,7 +17,7 @@
         <button @click="close()"><span>&#10006;&#xFE0E;</span></button>
       </div>
     </div>
-    <slot></slot>
+    <div v-html="file.data" class="content-wrapper"></div>
   </div>
 </template>
 
@@ -32,6 +32,11 @@
   background-color: black;
   top: 5rem;
   left: 5rem;
+
+  .content-wrapper {
+    width: 100%;
+    height: 100%;
+  }
 
   &.maximize {
     width: 100%;
@@ -75,6 +80,8 @@
     box-sizing: border-box;
     padding: 1rem;
     background-image: url("@/assets/backgrounds/OldPaper.gif");
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
@@ -85,9 +92,16 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "FakeWindow",
   props: {
-    title: {
-      type: String,
-      default: "Window",
+    file: {
+      type: Object,
+      default: () => {
+        return {
+          filename: "file.png",
+          open: false,
+          minimized: false,
+          data: `no data`,
+        };
+      },
     },
   },
   emits: ["close", "minimize"],

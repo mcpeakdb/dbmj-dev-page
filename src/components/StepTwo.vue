@@ -1,46 +1,16 @@
 <template>
   <div class="step-content step-two-content animate-screen-on">
     <div class="fake-desktop">
-      <div @click="openFile('aboutme.html')" class="icon-wrapper">
-        <img src="@/assets/icons/html_95.png" alt="html icon" />
-        <p>aboutme.html</p>
-      </div>
-      <div @click="openFile('dancingbaby.jpeg')" class="icon-wrapper">
-        <img src="@/assets/icons/jpg_95.png" alt="jpg icon" />
-        <p>dancingbaby.jpeg</p>
-      </div>
-
-      <FakeWindow
-        v-if="filesOpen.includes('aboutme.html')"
-        v-show="!filesMinimize.includes('aboutme.html')"
-        title="aboutme.html"
-        @close="
-          filesOpen = filesOpen.filter(
-            (fileOpen) => fileOpen !== 'aboutme.html'
-          )
+      <FakeDesktopIcon
+        v-for="file in files"
+        :key="file.filename"
+        :name="file.filename"
+        @openFile="
+          file.open = true;
+          file.minimized = false;
         "
-        @minimize="minimizeFile('aboutme.html')"
-      >
-        <div class="old-web-page">
-          <span>My name is Danny McPeak Jr</span><br />
-          <span>I am a Full Stack Web Developer</span>
-        </div>
-      </FakeWindow>
-      <FakeWindow
-        v-if="filesOpen.includes('dancingbaby.jpeg')"
-        v-show="!filesMinimize.includes('dancingbaby.jpeg')"
-        title="dancingbaby.jpeg"
-        @close="
-          filesOpen = filesOpen.filter(
-            (fileOpen) => fileOpen !== 'dancingbaby.jpeg'
-          )
-        "
-        @minimize="minimizeFile('dancingbaby.jpeg')"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
-        />
-      </FakeWindow>
+      />
+      <FakeWindowManager :files="files" />
     </div>
     <div class="fake-start-bar">
       <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
@@ -67,7 +37,7 @@
         :key="fileOpen"
         @click="unminimizeFile(fileOpen)"
       >
-        {{ fileOpen }}
+        {{ fileOpen.filename }}
       </button>
 
       <button class="taskbar">{{ time }}</button>
@@ -75,7 +45,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #app .step-content.step-two-content {
   text-align: left;
   background-color: $dbm-green;
@@ -139,13 +109,15 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import FakeWindow from "@/components/widgets/FakeWindow.vue";
+import { computed, defineComponent, ref } from "vue";
+import FakeDesktopIcon from "@/components/widgets/FakeDesktopIcon.vue";
+import FakeWindowManager from "@/components/widgets/FakeWindowManager.vue";
 
 export default defineComponent({
   name: "StepTwo",
   components: {
-    FakeWindow,
+    FakeDesktopIcon,
+    FakeWindowManager,
   },
   setup(props, { emit }) {
     const submit = (): void => {
@@ -170,41 +142,44 @@ export default defineComponent({
 
     const time = ref<string>("");
 
-    const openFile = (fileName: string) => {
-      if (filesOpen.value.includes(fileName)) {
-        unminimizeFile(fileName);
-        return;
-      }
-      filesOpen.value.push(fileName);
+    const unminimizeFile = (file: any) => {
+      file.minimized = false;
     };
-
-    const minimizeFile = (fileName: string) => {
-      if (filesMinimize.value.includes(fileName)) {
-        return;
-      }
-      filesMinimize.value.push(fileName);
-    };
-
-    const unminimizeFile = (fileName: string) => {
-      var index = filesMinimize.value.indexOf(fileName);
-      if (index !== -1) {
-        filesMinimize.value.splice(index, 1);
-      }
-    };
-
-    const filesOpen = ref<string[]>([]);
-    const filesMinimize = ref<string[]>([]);
 
     setInterval(() => (time.value = setTime()), 1000);
 
+    const files = ref([
+      {
+        filename: "aboutme.html",
+        open: false,
+        minimized: false,
+        data: `<div class="old-web-page">
+          <span>My name is Danny McPeak Jr</span><br />
+          <span>I am a Full Stack Web Developer</span>
+        </div>`,
+      },
+      {
+        filename: "dancingbaby.jpeg",
+        open: false,
+        minimized: false,
+        data: `<img
+          src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
+        />`,
+      },
+    ]);
+
+    const filesOpen = computed(() => {
+      return files.value.filter((file) => {
+        return file.open === true;
+      });
+    });
+
     return {
       submit,
-      openFile,
-      minimizeFile,
       unminimizeFile,
       toggleMenu,
+      files,
       filesOpen,
-      filesMinimize,
       menuOpened,
       time,
     };
