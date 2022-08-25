@@ -22,11 +22,9 @@
 </template>
 
 <style lang="scss" scoped>
-$terminalGreen: #41ff00;
-
 .step-one-content {
   color: $terminalGreen;
-  background: #000000;
+  background: $black;
   font-family: Terminal;
   font-size: 2rem;
   display: flex;
@@ -164,7 +162,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "StepOne",
   setup(props, { emit }) {
-    const submit = (key: string) => {
+    const submit = (key: string): void => {
       if (keyPressed.value) {
         return;
       }
@@ -186,18 +184,18 @@ export default defineComponent({
       }, 4000);
     };
 
-    const keyupSubmit = (e: KeyboardEvent) => {
+    const keyupSubmit = (e: KeyboardEvent): void => {
       submit(e.key);
     };
 
-    const mouseupSubmit = () => {
+    const mouseupSubmit = (): void => {
       submit("mouse");
     };
 
     window.addEventListener("keyup", keyupSubmit);
     window.addEventListener("mouseup", mouseupSubmit);
 
-    const keyPressed = ref("");
+    const keyPressed = ref<string>("");
 
     return {
       keyPressed,

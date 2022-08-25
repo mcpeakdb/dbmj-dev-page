@@ -12,12 +12,14 @@
 
       <FakeWindow
         v-if="filesOpen.includes('aboutme.html')"
+        v-show="!filesMinimize.includes('aboutme.html')"
         title="aboutme.html"
         @close="
           filesOpen = filesOpen.filter(
             (fileOpen) => fileOpen !== 'aboutme.html'
           )
         "
+        @minimize="minimizeFile('aboutme.html')"
       >
         <div class="old-web-page">
           <span>My name is Danny McPeak Jr</span><br />
@@ -26,12 +28,14 @@
       </FakeWindow>
       <FakeWindow
         v-if="filesOpen.includes('dancingbaby.jpeg')"
+        v-show="!filesMinimize.includes('dancingbaby.jpeg')"
         title="dancingbaby.jpeg"
         @close="
           filesOpen = filesOpen.filter(
             (fileOpen) => fileOpen !== 'dancingbaby.jpeg'
           )
         "
+        @minimize="minimizeFile('dancingbaby.jpeg')"
       >
         <img
           src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
@@ -41,8 +45,28 @@
     <div class="fake-start-bar">
       <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
         Start
+        <div
+          v-if="menuOpened"
+          style="
+            position: fixed;
+            bottom: 36px;
+            left: 0px;
+            background: grey;
+            margin: 0px;
+            padding: 20px;
+          "
+        >
+          <div style="padding: 0; margin: 0">Start Menu</div>
+          <div style="padding: 0; margin: 0">Start Menu</div>
+          <div style="padding: 0; margin: 0">Start Menu</div>
+          <div style="padding: 0; margin: 0">Start Menu</div>
+        </div>
       </button>
-      <button v-for="fileOpen in filesOpen" :key="fileOpen">
+      <button
+        v-for="fileOpen in filesOpen"
+        :key="fileOpen"
+        @click="unminimizeFile(fileOpen)"
+      >
         {{ fileOpen }}
       </button>
 
@@ -61,7 +85,7 @@
     display: relative;
     .icon-wrapper {
       padding: 1rem;
-      color: white;
+      color: $white;
       cursor: pointer;
       text-align: center;
       display: inline-block;
@@ -72,8 +96,8 @@
   }
 
   .fake-start-bar {
-    background-color: #c0c0c0;
-    border-top: ridge 0.2rem #fff;
+    background-color: $minisoftGrey;
+    border-top: ridge 0.2rem $white;
     height: 2rem;
     position: absolute;
     bottom: 0;
@@ -84,10 +108,10 @@
       height: 95%;
       margin: 0 0.2rem;
       padding: 0 0.4rem;
-      border-top: ridge 0.2rem white;
-      border-left: ridge 0.2rem white;
-      border-bottom: ridge 0.2rem black;
-      border-right: ridge 0.2rem black;
+      border-top: ridge 0.2rem $white;
+      border-left: ridge 0.2rem $white;
+      border-bottom: ridge 0.2rem $black;
+      border-right: ridge 0.2rem $black;
       max-width: 23%;
       overflow: hidden;
       white-space: nowrap;
@@ -96,19 +120,19 @@
         float: right;
         padding-left: 1rem;
         min-width: 4.8rem;
-        border-top: inset 0.2rem grey;
-        border-left: inset 0.2rem grey;
-        border-bottom: inset 0.2rem white;
-        border-right: inset 0.2rem white;
+        border-top: inset 0.2rem $grey;
+        border-left: inset 0.2rem $grey;
+        border-bottom: inset 0.2rem $white;
+        border-right: inset 0.2rem $white;
         text-overflow: clip;
       }
     }
 
     button.menu-open {
-      border-top: inset 0.2rem black;
-      border-left: inset 0.2rem black;
-      border-bottom: inset 0.2rem white;
-      border-right: inset 0.2rem white;
+      border-top: inset 0.2rem $black;
+      border-left: inset 0.2rem $black;
+      border-bottom: inset 0.2rem $white;
+      border-right: inset 0.2rem $white;
     }
   }
 }
@@ -124,7 +148,7 @@ export default defineComponent({
     FakeWindow,
   },
   setup(props, { emit }) {
-    const submit = () => {
+    const submit = (): void => {
       emit("submit");
     };
 
@@ -148,20 +172,39 @@ export default defineComponent({
 
     const openFile = (fileName: string) => {
       if (filesOpen.value.includes(fileName)) {
+        unminimizeFile(fileName);
         return;
       }
       filesOpen.value.push(fileName);
     };
 
+    const minimizeFile = (fileName: string) => {
+      if (filesMinimize.value.includes(fileName)) {
+        return;
+      }
+      filesMinimize.value.push(fileName);
+    };
+
+    const unminimizeFile = (fileName: string) => {
+      var index = filesMinimize.value.indexOf(fileName);
+      if (index !== -1) {
+        filesMinimize.value.splice(index, 1);
+      }
+    };
+
     const filesOpen = ref<string[]>([]);
+    const filesMinimize = ref<string[]>([]);
 
     setInterval(() => (time.value = setTime()), 1000);
 
     return {
       submit,
       openFile,
+      minimizeFile,
+      unminimizeFile,
       toggleMenu,
       filesOpen,
+      filesMinimize,
       menuOpened,
       time,
     };

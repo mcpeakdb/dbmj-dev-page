@@ -1,10 +1,17 @@
 <template>
-  <div class="fake-window" ref="fakeWindow">
+  <div
+    class="fake-window"
+    :class="isMaximized ? 'maximize' : ''"
+    ref="fakeWindow"
+  >
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
       {{ title }}
       <div>
-        <button><span>_</span></button>
-        <button><span>&#x26F6;</span></button>
+        <button @click="minimize()"><span>_</span></button>
+        <button v-if="isMaximized" @click="unmaximize()">
+          <span>&#x26F6;</span>
+        </button>
+        <button v-else @click="maximize()"><span>&#x26F6;</span></button>
         <button @click="close()"><span>X</span></button>
       </div>
     </div>
@@ -23,6 +30,13 @@
   background-color: black;
   top: 5rem;
   left: 5rem;
+
+  &.maximize {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 
   .fake-window-topbar {
     display: flex;
@@ -70,19 +84,28 @@ export default defineComponent({
       default: "Window",
     },
   },
-  emits: ["close"],
+  emits: ["close", "minimize"],
   setup(props, { emit }) {
-    const close = () => {
+    const close = (): void => {
+      isMaximized.value = false;
       emit("close");
     };
+    const minimize = (): void => {
+      emit("minimize");
+    };
     const fakeWindow = ref<HTMLElement>();
+    const windowTop = ref<string>("5rem");
+    const windowLeft = ref<string>("5rem");
 
     let pos1 = 0,
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
 
-    const dragMouseDown = (e: MouseEvent) => {
+    const dragMouseDown = (e: MouseEvent): void => {
+      if (isMaximized.value) {
+        return;
+      }
       e = e || window.event;
       e.preventDefault();
 
@@ -94,7 +117,7 @@ export default defineComponent({
       document.onmousemove = elementDrag;
     };
 
-    function elementDrag(e: MouseEvent) {
+    function elementDrag(e: MouseEvent): void {
       e = e || window.event;
       e.preventDefault();
 
@@ -106,23 +129,45 @@ export default defineComponent({
 
       // set the element's new position:
       if (fakeWindow.value) {
-        fakeWindow.value.style.top = fakeWindow.value.offsetTop - pos2 + "px";
-        fakeWindow.value.style.left = fakeWindow.value.offsetLeft - pos1 + "px";
-      }
+        windowTop.value = fakeWindow.value.offsetTop - pos2 + "px";
+        windowLeft.value = fakeWindow.value.offsetLeft - pos1 + "px";
 
-      return null;
+        fakeWindow.value.style.top = windowTop.value;
+        fakeWindow.value.style.left = windowLeft.value;
+      }
     }
 
-    function closeDragElement() {
+    function closeDragElement(): void {
       // stop moving when mouse button is released:
       document.onmouseup = null;
       document.onmousemove = null;
-      return null;
+    }
+
+    const isMaximized = ref<boolean>(false);
+
+    function maximize(): void {
+      if (fakeWindow.value) {
+        fakeWindow.value.style.top = "0px";
+        fakeWindow.value.style.left = "0px";
+      }
+      isMaximized.value = true;
+    }
+
+    function unmaximize(): void {
+      if (fakeWindow.value) {
+        fakeWindow.value.style.top = windowTop.value;
+        fakeWindow.value.style.left = windowLeft.value;
+      }
+      isMaximized.value = false;
     }
 
     return {
       fakeWindow,
+      isMaximized,
       close,
+      minimize,
+      maximize,
+      unmaximize,
       dragMouseDown,
     };
   },

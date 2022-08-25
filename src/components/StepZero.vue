@@ -50,13 +50,13 @@
       transition: all 1s;
     }
     .button-wrapper {
-      background: #666;
-      border-right: 0.2rem solid #333;
-      border-bottom: 0.2rem solid #333;
-      border-left: 0.2rem solid #999;
-      border-top: 0.2rem solid #999;
+      background: $grey6;
+      border-right: 0.2rem solid $grey3;
+      border-bottom: 0.2rem solid $grey3;
+      border-left: 0.2rem solid $grey9;
+      border-top: 0.2rem solid $grey9;
       border-radius: 1rem;
-      box-shadow: 0.3rem 0.3rem 1rem 0 #333;
+      box-shadow: 0.3rem 0.3rem 1rem 0 $grey3;
       height: 20rem;
       width: 20rem;
       display: flex;
@@ -64,9 +64,9 @@
       align-items: center;
 
       button {
-        background: #ff0000;
-        box-shadow: 0.3rem 0.3rem 1rem 0 #333;
-        color: white;
+        background: $red;
+        box-shadow: 0.3rem 0.3rem 1rem 0 $grey3;
+        color: $white;
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
           sans-serif;
         font-size: 1.5rem;
@@ -75,7 +75,7 @@
         width: 10rem;
         padding: 1rem;
         &:hover {
-          background: #ff0000aa;
+          background: $red + "aa";
         }
 
         &:active {
@@ -94,7 +94,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "StepZero",
   setup(props, { emit }) {
-    const submit = () => {
+    const submit = (): void => {
       pressed.value = true;
       setTimeout(() => {
         emit("submit");
@@ -104,15 +104,15 @@ export default defineComponent({
       }, 500);
     };
 
-    const pressed = ref(false);
+    const pressed = ref<boolean>(false);
 
-    const showPressMe = ref(false);
+    const showPressMe = ref<boolean>(false);
 
     setTimeout(() => {
       showPressMe.value = true;
     }, 10000);
 
-    const showPressMe2 = ref(false);
+    const showPressMe2 = ref<boolean>(false);
 
     setTimeout(() => {
       showPressMe2.value = true;
