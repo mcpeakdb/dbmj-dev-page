@@ -87,6 +87,7 @@
 </style>
 
 <script lang="ts">
+import { FakeFile } from "@/types";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -94,9 +95,10 @@ export default defineComponent({
   props: {
     file: {
       type: Object,
-      default: () => {
+      default: (): FakeFile => {
         return {
           filename: "file.png",
+          title: "file",
           open: false,
           minimized: false,
           data: `no data`,

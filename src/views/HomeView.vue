@@ -26,7 +26,7 @@ export default defineComponent({
     const step = ref(0);
     const finalStep = 2;
 
-    const setStep = (newStep: number) => {
+    const setStep = (newStep: number): void => {
       step.value = newStep;
     };
 

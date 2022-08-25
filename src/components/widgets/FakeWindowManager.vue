@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import { FakeFile } from "@/types";
 import FakeWindow from "@/components/widgets/FakeWindow.vue";
 
 export default defineComponent({
@@ -28,10 +28,11 @@ export default defineComponent({
   props: {
     files: {
       type: Array,
-      default: () => {
+      default: (): FakeFile[] => {
         return [
           {
             filename: "file.png",
+            title: "file",
             open: false,
             minimized: false,
             data: `no data`,

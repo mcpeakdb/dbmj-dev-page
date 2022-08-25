@@ -113,6 +113,7 @@
 import { computed, defineComponent, ref } from "vue";
 import FakeDesktopIcon from "@/components/widgets/FakeDesktopIcon.vue";
 import FakeWindowManager from "@/components/widgets/FakeWindowManager.vue";
+import { FakeFile } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",
@@ -127,11 +128,11 @@ export default defineComponent({
 
     const menuOpened = ref<boolean>(false);
 
-    const toggleMenu = () => {
+    const toggleMenu = (): void => {
       menuOpened.value = !menuOpened.value;
     };
 
-    const setTime = () => {
+    const setTime = (): string => {
       const date = new Date();
       const time = date.toLocaleTimeString([], {
         hour: "numeric",
@@ -143,13 +144,13 @@ export default defineComponent({
 
     const time = ref<string>("");
 
-    const unminimizeFile = (file: any) => {
+    const unminimizeFile = (file: { minimized: boolean }): void => {
       file.minimized = false;
     };
 
     setInterval(() => (time.value = setTime()), 1000);
 
-    const files = ref([
+    const files = ref<FakeFile[]>([
       {
         filename: "aboutme.html",
         title: "About Me",
