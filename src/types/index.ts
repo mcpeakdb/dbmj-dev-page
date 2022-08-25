@@ -4,4 +4,5 @@ export interface FakeProgram {
   open: boolean;
   minimized: boolean;
   data: string;
+  type: string;
 }

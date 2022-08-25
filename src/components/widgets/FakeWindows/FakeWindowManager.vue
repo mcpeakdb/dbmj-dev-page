@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { FakeProgram } from "@/types";
-import FakeWindow from "@/components/widgets/FakeWindow.vue";
+import FakeWindow from "@/components/widgets/FakeWindows/FakeWindow.vue";
 
 export default defineComponent({
   name: "FakeFileManager",
@@ -35,6 +35,7 @@ export default defineComponent({
             open: false,
             minimized: false,
             data: `no data`,
+            type: "png",
           },
         ];
       },

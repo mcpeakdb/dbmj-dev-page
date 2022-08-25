@@ -26,10 +26,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import FakeDesktopIcon from "@/components/widgets/FakeDesktopIcon.vue";
-import FakeWindowManager from "@/components/widgets/FakeWindowManager.vue";
+import FakeDesktopIcon from "@/components/widgets/FakeWindows/FakeDesktopIcon.vue";
+import FakeWindowManager from "@/components/widgets/FakeWindows/FakeWindowManager.vue";
 import { FakeProgram } from "@/types";
-import FakeStartMenu from "@/components/widgets/FakeStartMenu.vue";
+import FakeStartMenu from "@/components/widgets/FakeWindows/FakeStartMenu.vue";
 
 export default defineComponent({
   name: "StepTwo",
@@ -53,6 +53,7 @@ export default defineComponent({
           <span><h1>Hello!</h1>My name is Danny McPeak Jr</span><br />
           <span>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></span>
         </div>`,
+        type: "html",
       },
       {
         name: "dancingbaby.jpg",
@@ -62,15 +63,17 @@ export default defineComponent({
         data: `<div><img
           src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
         /></div>`,
+        type: "jpg",
       },
       {
-        name: "keepingcurrentmatters.com",
+        name: "https://www.keepingcurrentmatters.com",
         title: "Keeping Current Matters",
         open: false,
         minimized: false,
         data: `<iframe
           src="https://www.keepingcurrentmatters.com"
         />`,
+        type: "html",
       },
     ]);
 

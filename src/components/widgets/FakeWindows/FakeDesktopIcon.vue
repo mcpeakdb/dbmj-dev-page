@@ -1,7 +1,7 @@
 <template>
   <div @click="open(program)" class="fake-desktop-icon-wrapper">
     <img
-      :src="getImgUrl('icons/' + programType + '_95.png')"
+      :src="getImgUrl('icons/' + programTypeImage + '_95.png')"
       :alt="program.name"
     />
     <p>{{ program.title }}</p>
@@ -28,14 +28,13 @@ import { computed, defineComponent } from "vue";
 export default defineComponent({
   name: "FakeDesktopIcon",
   setup(props, { emit }) {
-    const programType = computed((): string => {
-      const extension = props.program.name.split(".")[1];
-      if (["png", "jpg", "jpeg"].includes(extension)) {
+    const programTypeImage = computed((): string => {
+      if (["png", "jpg", "jpeg"].includes(props.program.type)) {
         return "jpg";
-      } else if (["com", "html"].includes(extension)) {
+      } else if (["com", "html"].includes(props.program.type)) {
         return "html";
       } else {
-        return extension;
+        return props.program.type;
       }
     });
 
@@ -49,7 +48,7 @@ export default defineComponent({
     };
 
     return {
-      programType,
+      programTypeImage,
       getImgUrl,
       open,
     };
@@ -64,6 +63,7 @@ export default defineComponent({
           open: false,
           minimized: false,
           data: `no data`,
+          type: "png",
         };
       },
     },

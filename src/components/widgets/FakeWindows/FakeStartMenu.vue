@@ -95,6 +95,7 @@ export default defineComponent({
             open: false,
             minimized: false,
             data: `no data`,
+            type: "png",
           },
         ];
       },

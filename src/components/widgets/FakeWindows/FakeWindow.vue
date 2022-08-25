@@ -24,7 +24,7 @@
 <style lang="scss">
 .fake-window {
   border: 0.2rem inset lightgrey;
-  max-height: 100%;
+  max-height: calc(100% - 2rem);
   max-width: 100%;
   width: fit-content;
   box-sizing: border-box;
@@ -36,17 +36,17 @@
   .content-wrapper {
     width: 100%;
     height: 100%;
+    > * {
+      width: 100%;
+      height: calc(100% - 2rem);
+    }
   }
 
   &.maximize {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 2rem);
     top: 0;
     left: 0;
-    .content-wrapper > * {
-      width: 100%;
-      height: 100%;
-    }
   }
 
   .fake-window-topbar {
@@ -102,6 +102,7 @@ export default defineComponent({
           open: false,
           minimized: false,
           data: `no data`,
+          type: "png",
         };
       },
     },
