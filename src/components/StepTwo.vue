@@ -4,45 +4,11 @@
       <FakeDesktopIcon
         v-for="program in programs"
         :key="program.name"
-        :name="program.name"
-        :title="program.title"
-        @open="
-          program.open = true;
-          program.minimized = false;
-        "
+        :program="program"
       />
       <FakeWindowManager :programs="programs" />
     </div>
-    <div class="fake-start-bar">
-      <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
-        Start
-        <div
-          v-if="menuOpened"
-          style="
-            position: fixed;
-            bottom: 36px;
-            left: 0px;
-            background: grey;
-            margin: 0px;
-            padding: 20px;
-          "
-        >
-          <div style="padding: 0; margin: 0">Start Menu</div>
-          <div style="padding: 0; margin: 0">Start Menu</div>
-          <div style="padding: 0; margin: 0">Start Menu</div>
-          <div style="padding: 0; margin: 0">Start Menu</div>
-        </div>
-      </button>
-      <button
-        v-for="programOpen in programsOpen"
-        :key="programOpen"
-        @click="programOpen.minimized = false"
-      >
-        {{ programOpen.name }}
-      </button>
-
-      <button class="taskbar">{{ time }}</button>
-    </div>
+    <FakeStartMenu :programs="programs" />
   </div>
 </template>
 
@@ -54,97 +20,28 @@
   overflow: hidden;
   .fake-desktop {
     display: relative;
-    .icon-wrapper {
-      padding: 1rem;
-      color: $white;
-      cursor: pointer;
-      text-align: center;
-      display: inline-block;
-      img {
-        width: 2.5rem;
-      }
-    }
-  }
-
-  .fake-start-bar {
-    background-color: $minisoftGrey;
-    border-top: ridge 0.2rem $white;
-    height: 2rem;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-
-    button {
-      background-color: transparent;
-      height: 95%;
-      margin: 0 0.2rem;
-      padding: 0 0.4rem;
-      border-top: ridge 0.2rem $white;
-      border-left: ridge 0.2rem $white;
-      border-bottom: ridge 0.2rem $black;
-      border-right: ridge 0.2rem $black;
-      max-width: 23%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      &.taskbar {
-        float: right;
-        padding-left: 1rem;
-        min-width: 4.8rem;
-        border-top: inset 0.2rem $grey;
-        border-left: inset 0.2rem $grey;
-        border-bottom: inset 0.2rem $white;
-        border-right: inset 0.2rem $white;
-        text-overflow: clip;
-      }
-    }
-
-    button.menu-open {
-      border-top: inset 0.2rem $black;
-      border-left: inset 0.2rem $black;
-      border-bottom: inset 0.2rem $white;
-      border-right: inset 0.2rem $white;
-    }
   }
 }
 </style>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import FakeDesktopIcon from "@/components/widgets/FakeDesktopIcon.vue";
 import FakeWindowManager from "@/components/widgets/FakeWindowManager.vue";
 import { FakeProgram } from "@/types";
+import FakeStartMenu from "@/components/widgets/FakeStartMenu.vue";
 
 export default defineComponent({
   name: "StepTwo",
   components: {
     FakeDesktopIcon,
     FakeWindowManager,
+    FakeStartMenu,
   },
   setup(props, { emit }) {
     const submit = (): void => {
       emit("submit");
     };
-
-    const menuOpened = ref<boolean>(false);
-
-    const toggleMenu = (): void => {
-      menuOpened.value = !menuOpened.value;
-    };
-
-    const setTime = (): string => {
-      const date = new Date();
-      const time = date.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit",
-      });
-
-      return time;
-    };
-
-    const time = ref<string>("");
-
-    setInterval(() => (time.value = setTime()), 1000);
 
     const programs = ref<FakeProgram[]>([
       {
@@ -177,19 +74,9 @@ export default defineComponent({
       },
     ]);
 
-    const programsOpen = computed(() => {
-      return programs.value.filter((programs) => {
-        return programs.open === true;
-      });
-    });
-
     return {
       submit,
-      toggleMenu,
       programs,
-      programsOpen,
-      menuOpened,
-      time,
     };
   },
   props: {

@@ -24,7 +24,6 @@ export default defineComponent({
   components: {
     FakeWindow,
   },
-  emits: [],
   props: {
     programs: {
       type: Array,
