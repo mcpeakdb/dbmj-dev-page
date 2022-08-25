@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span v-for="file in files" :key="file.filename">
+    <span v-for="program in programs" :key="program.name">
       <FakeWindow
-        v-if="file.open"
-        v-show="!file.minimized"
+        v-if="program.open"
+        v-show="!program.minimized"
         title="aboutme.html"
-        :file="file"
-        @close="file.open = false"
-        @minimize="file.minimized = true"
+        :program="program"
+        @close="program.open = false"
+        @minimize="program.minimized = true"
       >
       </FakeWindow>
     </span>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { FakeFile } from "@/types";
+import { FakeProgram } from "@/types";
 import FakeWindow from "@/components/widgets/FakeWindow.vue";
 
 export default defineComponent({
@@ -26,12 +26,12 @@ export default defineComponent({
   },
   emits: [],
   props: {
-    files: {
+    programs: {
       type: Array,
-      default: (): FakeFile[] => {
+      default: (): FakeProgram[] => {
         return [
           {
-            filename: "file.png",
+            name: "file.png",
             title: "file",
             open: false,
             minimized: false,

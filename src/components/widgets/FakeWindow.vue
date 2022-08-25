@@ -5,7 +5,7 @@
     ref="fakeWindow"
   >
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
-      {{ file.filename }}
+      {{ program.name }}
       <div>
         <button @click="minimize()"><span>&#128469;&#xFE0E;</span></button>
         <button v-if="isMaximized" @click="unmaximize()">
@@ -17,7 +17,7 @@
         <button @click="close()"><span>&#10006;&#xFE0E;</span></button>
       </div>
     </div>
-    <div v-html="file.data" class="content-wrapper"></div>
+    <div v-html="program.data" class="content-wrapper"></div>
   </div>
 </template>
 
@@ -87,17 +87,17 @@
 </style>
 
 <script lang="ts">
-import { FakeFile } from "@/types";
+import { FakeProgram } from "@/types";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "FakeWindow",
   props: {
-    file: {
+    program: {
       type: Object,
-      default: (): FakeFile => {
+      default: (): FakeProgram => {
         return {
-          filename: "file.png",
+          name: "file.png",
           title: "file",
           open: false,
           minimized: false,

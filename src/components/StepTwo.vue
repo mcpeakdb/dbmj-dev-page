@@ -2,16 +2,16 @@
   <div class="step-content step-two-content animate-screen-on">
     <div class="fake-desktop">
       <FakeDesktopIcon
-        v-for="file in files"
-        :key="file.filename"
-        :name="file.filename"
-        :title="file.title"
-        @openFile="
-          file.open = true;
-          file.minimized = false;
+        v-for="program in programs"
+        :key="program.name"
+        :name="program.name"
+        :title="program.title"
+        @open="
+          program.open = true;
+          program.minimized = false;
         "
       />
-      <FakeWindowManager :files="files" />
+      <FakeWindowManager :programs="programs" />
     </div>
     <div class="fake-start-bar">
       <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
@@ -34,11 +34,11 @@
         </div>
       </button>
       <button
-        v-for="fileOpen in filesOpen"
-        :key="fileOpen"
-        @click="unminimizeFile(fileOpen)"
+        v-for="programOpen in programsOpen"
+        :key="programOpen"
+        @click="programOpen.minimized = false"
       >
-        {{ fileOpen.filename }}
+        {{ programOpen.name }}
       </button>
 
       <button class="taskbar">{{ time }}</button>
@@ -113,7 +113,7 @@
 import { computed, defineComponent, ref } from "vue";
 import FakeDesktopIcon from "@/components/widgets/FakeDesktopIcon.vue";
 import FakeWindowManager from "@/components/widgets/FakeWindowManager.vue";
-import { FakeFile } from "@/types";
+import { FakeProgram } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",
@@ -144,15 +144,11 @@ export default defineComponent({
 
     const time = ref<string>("");
 
-    const unminimizeFile = (file: { minimized: boolean }): void => {
-      file.minimized = false;
-    };
-
     setInterval(() => (time.value = setTime()), 1000);
 
-    const files = ref<FakeFile[]>([
+    const programs = ref<FakeProgram[]>([
       {
-        filename: "aboutme.html",
+        name: "aboutme.html",
         title: "About Me",
         open: false,
         minimized: false,
@@ -162,7 +158,7 @@ export default defineComponent({
         </div>`,
       },
       {
-        filename: "dancingbaby.jpg",
+        name: "dancingbaby.jpg",
         title: "Dancing Baby",
         open: false,
         minimized: false,
@@ -171,7 +167,7 @@ export default defineComponent({
         /></div>`,
       },
       {
-        filename: "keepingcurrentmatters.com",
+        name: "keepingcurrentmatters.com",
         title: "Keeping Current Matters",
         open: false,
         minimized: false,
@@ -181,18 +177,17 @@ export default defineComponent({
       },
     ]);
 
-    const filesOpen = computed(() => {
-      return files.value.filter((file) => {
-        return file.open === true;
+    const programsOpen = computed(() => {
+      return programs.value.filter((programs) => {
+        return programs.open === true;
       });
     });
 
     return {
       submit,
-      unminimizeFile,
       toggleMenu,
-      files,
-      filesOpen,
+      programs,
+      programsOpen,
       menuOpened,
       time,
     };
