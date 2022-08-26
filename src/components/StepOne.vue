@@ -2,7 +2,7 @@
   <div class="step-content step-one-content animate-screen-on">
     <div>
       <h1>Hello world,</h1>
-      <h2>Welcome to the future of web development!</h2>
+      <h2>Welcome to my sandbox of web development!</h2>
       <h3>
         Press 1 to Start Over. Press 2 to skip to the end. <br />Press any other
         key to continue<span v-if="!keyPressed">...</span
