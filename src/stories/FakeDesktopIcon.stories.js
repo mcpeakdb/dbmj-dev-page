@@ -18,7 +18,8 @@ const Template = (args, { updateArgs }) => ({
       args,
     };
   },
-  template: "<fake-desktop-icon-component v-bind='args' @open='open'/>",
+  template:
+    "<div style='color:black;background-color:darkblue;padding:1rem;width:fit-content'><fake-desktop-icon-component v-bind='args' @open='open'/></div>",
   methods: {
     open() {
       args.program.open = true;

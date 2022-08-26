@@ -33,8 +33,8 @@ const Template = (args, { updateArgs }) => ({
   },
 });
 
-export const Png = Template.bind({});
-Png.args = {
+export const ImageViewer = Template.bind({});
+ImageViewer.args = {
   program: {
     id: 0,
     name: "Dancing Baby",
@@ -46,8 +46,8 @@ Png.args = {
   },
 };
 
-export const Html = Template.bind({});
-Html.args = {
+export const Browser = Template.bind({});
+Browser.args = {
   program: {
     id: 1,
     name: "https://www.google.com",
@@ -59,8 +59,8 @@ Html.args = {
   },
 };
 
-export const Txt = Template.bind({});
-Txt.args = {
+export const TextEditor = Template.bind({});
+TextEditor.args = {
   program: {
     id: 2,
     name: "helloworld.txt",

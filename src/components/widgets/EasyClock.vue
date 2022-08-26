@@ -20,6 +20,7 @@ export default defineComponent({
       return time;
     };
     const time = ref<string>("");
+    time.value = setTime();
     setInterval(() => (time.value = setTime()), 1000);
 
     return {

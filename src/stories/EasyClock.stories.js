@@ -13,7 +13,8 @@ export default {
 
 const Template = () => ({
   components: { EasyClockComponent },
-  template: "<easy-clock-component />",
+  template:
+    "<div style='color:black;background-color:lightgrey;padding:1rem;width:fit-content'><easy-clock-component /></div>",
 });
 
 export const EasyClock = Template.bind({});
