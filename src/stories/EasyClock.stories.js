@@ -1,4 +1,4 @@
-import EasyClockComponent from "./components/EasyClock.vue";
+import EasyClockComponent from "../components/widgets/EasyClock.vue";
 import EasyClockDocs from "./docs/EasyClock.docs.mdx";
 
 export default {

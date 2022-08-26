@@ -21,11 +21,6 @@ body {
   }
 }
 
-@font-face {
-  font-family: Terminal;
-  src: url("@/assets/fonts/VT323-Regular.ttf");
-}
-
 @keyframes screen-on {
   0% {
     overflow: hidden;

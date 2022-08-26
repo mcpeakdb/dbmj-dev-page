@@ -153,7 +153,7 @@ export default defineComponent({
         document.getElementsByClassName(
           "button-bolt"
         ) as HTMLCollectionOf<HTMLElement>
-      ).forEach((buttonBolt, index) => {
+      ).forEach((buttonBolt) => {
         buttonBolt.style.setProperty(
           "--button-bolt",
           `rotate(${Math.floor(Math.random() * 360)}deg)`

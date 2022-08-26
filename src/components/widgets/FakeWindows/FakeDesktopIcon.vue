@@ -1,9 +1,6 @@
 <template>
   <div @click="open(program)" class="fake-desktop-icon-wrapper">
-    <img
-      :src="getImgUrl('icons/' + programTypeImage + '_95.png')"
-      :alt="program.name"
-    />
+    <img :src="getImgUrl(programTypeImage)" :alt="program.name" />
     <p>{{ program.title }}</p>
   </div>
 </template>
@@ -27,7 +24,7 @@ import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "FakeDesktopIcon",
-  setup(props, { emit }) {
+  setup(props) {
     const programTypeImage = computed((): string => {
       if (["png", "jpg", "jpeg"].includes(props.program.type)) {
         return "jpg";
@@ -39,7 +36,7 @@ export default defineComponent({
     });
 
     const getImgUrl = (pic: string): string => {
-      return require("@/assets/" + pic);
+      return require("./icons/" + pic + "_95.png");
     };
 
     const open = (program: FakeProgram): void => {
