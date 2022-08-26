@@ -1,5 +1,7 @@
 <template>
   <div
+    v-if="program.open"
+    v-show="!program.minimized"
     class="fake-window"
     :class="isMaximized ? 'maximize' : ''"
     ref="fakeWindow"
@@ -107,7 +109,7 @@
     &.fake-editor-window {
       box-sizing: border-box;
       padding: 1rem;
-      background-image: url("@/assets/backgrounds/OldPaper.gif");
+      background-image: url("./backgrounds/OldPaper.gif");
       width: 100%;
     }
   }
@@ -144,7 +146,7 @@ export default defineComponent({
       emit("close");
     };
     const minimize = (): void => {
-      emit("minimize");
+      emit("minimize", props.program.id);
     };
     const fakeWindow = ref<HTMLElement>();
     const windowTop = ref<string>("5rem");

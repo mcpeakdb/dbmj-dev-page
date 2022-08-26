@@ -28,11 +28,34 @@ const Template = (args, { updateArgs }) => ({
   },
 });
 
-export const FakeDesktopIcon = Template.bind({});
-FakeDesktopIcon.args = {
+export const Png = Template.bind({});
+Png.args = {
   program: {
-    title: "file.png",
+    id: 0,
+    title: "My Image",
     type: "png",
+    open: false,
+    active: false,
+  },
+};
+
+export const Html = Template.bind({});
+Html.args = {
+  program: {
+    id: 1,
+    title: "My Website",
+    type: "com",
+    open: false,
+    active: false,
+  },
+};
+
+export const Txt = Template.bind({});
+Txt.args = {
+  program: {
+    id: 2,
+    title: "My Text File",
+    type: "txt",
     open: false,
     active: false,
   },

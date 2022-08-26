@@ -33,18 +33,21 @@ export const FakeStartMenu = Template.bind({});
 FakeStartMenu.args = {
   programs: {
     0: {
+      id: 0,
       name: "my file",
       open: true,
       active: true,
       minimized: false,
     },
     1: {
+      id: 1,
       name: "another file",
       open: true,
       active: false,
       minimized: true,
     },
     2: {
+      id: 2,
       name: "last file",
       open: false,
       active: false,

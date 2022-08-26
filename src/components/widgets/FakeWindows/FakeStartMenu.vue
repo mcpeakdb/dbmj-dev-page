@@ -10,10 +10,10 @@
       </div>
     </button>
     <button
-      v-for="(programOpen, key) in programsOpen"
+      v-for="programOpen in programsOpen"
       :key="programOpen"
       :class="{ active: programOpen.active }"
-      @click="handleItemClick(key)"
+      @click="handleItemClick(programOpen.id)"
     >
       {{ programOpen.name }}
     </button>
@@ -104,6 +104,7 @@ export default defineComponent({
       },
     },
   },
+  emits: ["changeActive"],
   setup(props, { emit }) {
     const menuOpened = ref<boolean>(false);
 

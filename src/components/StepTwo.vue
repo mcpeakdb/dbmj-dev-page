@@ -7,17 +7,15 @@
         :program="program"
         @open="open"
       />
-      <span v-for="program in openPrograms" :key="program.name">
-        <FakeWindow
-          v-if="program.open"
-          v-show="!program.minimized"
-          title="aboutme.html"
-          :program="program"
-          @close="program.open = false"
-          @minimize="minimize(program)"
-        >
-        </FakeWindow>
-      </span>
+      <FakeWindow
+        v-for="program in openPrograms"
+        :key="program.name"
+        title="aboutme.html"
+        :program="program"
+        @close="program.open = false"
+        @minimize="minimize"
+      >
+      </FakeWindow>
     </div>
     <FakeStartMenu :programs="programs" @changeActive="changeActive" />
   </div>
@@ -40,7 +38,7 @@ import { computed, defineComponent, ref } from "vue";
 import FakeDesktopIcon from "@/components/widgets/FakeWindows/FakeDesktopIcon.vue";
 import FakeStartMenu from "@/components/widgets/FakeWindows/FakeStartMenu.vue";
 import FakeWindow from "@/components/widgets/FakeWindows/FakeWindow.vue";
-import { FakeProgram, FakeProgramData } from "@/types";
+import { FakeProgramData } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",
@@ -54,9 +52,9 @@ export default defineComponent({
       emit("submit");
     };
 
-    const minimize = (program: FakeProgram): void => {
-      program.minimized = true;
-      program.active = false;
+    const minimize = (id: number): void => {
+      programs.value[id].minimized = true;
+      programs.value[id].active = false;
     };
 
     const changeActive = (id: number): void => {
