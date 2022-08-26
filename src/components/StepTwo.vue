@@ -73,15 +73,13 @@ export default defineComponent({
     const programs = ref<FakeProgramData>({
       0: {
         id: 0,
-        name: "aboutme.html",
+        name: "aboutme.txt",
         title: "About Me",
         open: false,
         minimized: false,
-        data: `<div class="old-web-page">
-          <span><h1>Hello!</h1>My name is Danny McPeak Jr</span><br />
-          <span>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></span>
-        </div>`,
-        type: "html",
+        data: `<p><h1>Hello!</h1>My name is Danny McPeak Jr</p>
+          <p>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></p>`,
+        type: "txt",
         active: false,
       },
       1: {
@@ -90,9 +88,7 @@ export default defineComponent({
         title: "Dancing Baby",
         open: false,
         minimized: false,
-        data: `<div><img
-          src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
-        /></div>`,
+        data: `https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg`,
         type: "jpg",
         active: false,
       },
@@ -102,9 +98,7 @@ export default defineComponent({
         title: "Keeping Current Matters",
         open: false,
         minimized: false,
-        data: `<iframe
-          src="https://www.keepingcurrentmatters.com"
-        />`,
+        data: `https://www.keepingcurrentmatters.com`,
         type: "html",
         active: false,
       },

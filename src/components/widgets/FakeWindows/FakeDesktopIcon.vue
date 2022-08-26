@@ -69,6 +69,3 @@ export default defineComponent({
   },
 });
 </script>
-
-function emit(arg0: string, id: number) { throw new Error("Function not
-implemented."); }

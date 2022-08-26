@@ -17,7 +17,24 @@
         <button @click="close()"><span>&#10006;&#xFE0E;</span></button>
       </div>
     </div>
-    <div v-html="program.data" class="content-wrapper"></div>
+    <div
+      v-if="['jpg', 'jpeg', 'png'].includes(program.type)"
+      class="fake-image-window fake-window-content"
+    >
+      <img :src="program.data" />
+    </div>
+    <iframe
+      v-else-if="['html'].includes(program.type)"
+      class="fake-browser-window fake-window-content"
+      :src="program.data"
+    />
+    <div
+      v-else-if="['txt'].includes(program.type)"
+      v-html="program.data"
+      class="fake-editor-window fake-window-content"
+      :class="program.type + '-file-type'"
+    ></div>
+    <div v-else class="fake-window-content">No Program for this file type</div>
   </div>
 </template>
 
@@ -29,18 +46,9 @@
   width: fit-content;
   box-sizing: border-box;
   position: fixed;
-  background-color: black;
+  background-color: white;
   top: 5rem;
   left: 5rem;
-
-  .content-wrapper {
-    width: 100%;
-    height: 100%;
-    > * {
-      width: 100%;
-      height: calc(100% - 2rem);
-    }
-  }
 
   &.maximize {
     width: 100%;
@@ -56,6 +64,7 @@
     color: white;
     padding: 0.2rem 0.4rem;
     align-items: center;
+
     div {
       display: flex;
 
@@ -76,12 +85,31 @@
       }
     }
   }
-  .old-web-page {
-    box-sizing: border-box;
-    padding: 1rem;
-    background-image: url("@/assets/backgrounds/OldPaper.gif");
-    width: 100%;
-    height: 100%;
+
+  .fake-window-content {
+    height: calc(100% - 32px);
+    &.fake-image-window {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      img {
+        align-self: center;
+      }
+    }
+
+    &.fake-browser-window {
+      width: 100%;
+      min-width: 60vw;
+      min-height: 60vh;
+      border: none;
+    }
+
+    &.fake-editor-window {
+      box-sizing: border-box;
+      padding: 1rem;
+      background-image: url("@/assets/backgrounds/OldPaper.gif");
+      width: 100%;
+    }
   }
 }
 </style>

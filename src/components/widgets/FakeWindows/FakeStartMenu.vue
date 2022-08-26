@@ -2,17 +2,7 @@
   <div class="fake-start-bar">
     <button @click="toggleMenu" :class="{ active: menuOpened }">
       Start
-      <div
-        v-if="menuOpened"
-        style="
-          position: fixed;
-          bottom: 36px;
-          left: 0px;
-          background: grey;
-          margin: 0px;
-          padding: 20px;
-        "
-      >
+      <div v-if="menuOpened" class="fake-start-menu">
         <div style="padding: 0; margin: 0">Start Menu</div>
         <div style="padding: 0; margin: 0">Start Menu</div>
         <div style="padding: 0; margin: 0">Start Menu</div>
@@ -72,6 +62,15 @@
     border-left: inset 0.2rem $black;
     border-bottom: inset 0.2rem $white;
     border-right: inset 0.2rem $white;
+  }
+
+  .fake-start-menu {
+    position: fixed;
+    bottom: 36px;
+    left: 0px;
+    background: grey;
+    margin: 0px;
+    padding: 20px;
   }
 }
 </style>
