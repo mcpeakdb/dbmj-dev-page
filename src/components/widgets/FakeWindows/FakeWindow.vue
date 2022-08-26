@@ -97,6 +97,7 @@ export default defineComponent({
       type: Object,
       default: (): FakeProgram => {
         return {
+          id: 0,
           name: "file.png",
           title: "file",
           open: false,

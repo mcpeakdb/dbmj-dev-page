@@ -22,11 +22,6 @@
 </template>
 
 <style lang="scss" scoped>
-@font-face {
-  font-family: Terminal;
-  src: url("~@/assets/fonts/VT323-Regular.ttf");
-}
-
 .step-one-content {
   color: $terminalGreen;
   background: $black;

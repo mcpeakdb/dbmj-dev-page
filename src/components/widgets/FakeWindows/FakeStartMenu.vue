@@ -20,10 +20,10 @@
       </div>
     </button>
     <button
-      v-for="programOpen in programsOpen"
+      v-for="(programOpen, key) in programsOpen"
       :key="programOpen"
       :class="{ active: programOpen.active }"
-      @click="handleMenuClick(programOpen)"
+      @click="handleItemClick(key)"
     >
       {{ programOpen.name }}
     </button>
@@ -39,6 +39,7 @@
   height: 2rem;
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
 
   button {
@@ -77,8 +78,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import EasyClock from "@/components/widgets/EasyClock.vue";
-import { FakeProgram } from "@/types";
+import EasyClock from "../EasyClock.vue";
+import { FakeProgramData } from "@/types";
 
 export default defineComponent({
   name: "FakeStartMenu",
@@ -87,10 +88,11 @@ export default defineComponent({
   },
   props: {
     programs: {
-      type: Array as () => FakeProgram[],
-      default: (): FakeProgram[] => {
-        return [
-          {
+      type: Object as () => FakeProgramData,
+      default: (): FakeProgramData => {
+        return {
+          0: {
+            id: 0,
             name: "file.png",
             title: "file",
             open: false,
@@ -99,34 +101,36 @@ export default defineComponent({
             type: "png",
             active: false,
           },
-        ];
+        };
       },
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const menuOpened = ref<boolean>(false);
 
     const toggleMenu = (): void => {
       menuOpened.value = !menuOpened.value;
     };
 
-    const programsOpen = computed((): FakeProgram[] => {
-      return props.programs.filter((program): boolean => {
-        return program.open === true;
-      });
+    const programsOpen = computed((): FakeProgramData => {
+      const prgmsOpn: FakeProgramData = {};
+      for (let i = 0; i < Object.values(props.programs).length; i++) {
+        if (props.programs[i].open) {
+          prgmsOpn[i] = props.programs[i];
+        }
+      }
+      return prgmsOpn;
     });
 
-    const handleMenuClick = (program: FakeProgram): void => {
-      program.open = true;
-      program.minimized = !program.minimized;
-      program.active = !program.active;
+    const handleItemClick = (key: number): void => {
+      emit("changeActive", key);
     };
 
     return {
       programsOpen,
       menuOpened,
       toggleMenu,
-      handleMenuClick,
+      handleItemClick,
     };
   },
 });

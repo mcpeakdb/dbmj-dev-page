@@ -24,7 +24,8 @@ import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "FakeDesktopIcon",
-  setup(props) {
+  emits: ["open"],
+  setup(props, { emit }) {
     const programTypeImage = computed((): string => {
       if (["png", "jpg", "jpeg"].includes(props.program.type)) {
         return "jpg";
@@ -40,9 +41,7 @@ export default defineComponent({
     };
 
     const open = (program: FakeProgram): void => {
-      program.open = true;
-      program.minimized = false;
-      program.active = true;
+      emit("open", program.id);
     };
 
     return {
@@ -56,6 +55,7 @@ export default defineComponent({
       type: Object as () => FakeProgram,
       default: (): FakeProgram => {
         return {
+          id: 0,
           name: "file.png",
           title: "file",
           open: false,
@@ -69,3 +69,6 @@ export default defineComponent({
   },
 });
 </script>
+
+function emit(arg0: string, id: number) { throw new Error("Function not
+implemented."); }

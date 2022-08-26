@@ -5,10 +5,21 @@
         v-for="program in programs"
         :key="program.name"
         :program="program"
+        @open="open"
       />
-      <FakeWindowManager :programs="programs" />
+      <span v-for="program in openPrograms" :key="program.name">
+        <FakeWindow
+          v-if="program.open"
+          v-show="!program.minimized"
+          title="aboutme.html"
+          :program="program"
+          @close="program.open = false"
+          @minimize="minimize(program)"
+        >
+        </FakeWindow>
+      </span>
     </div>
-    <FakeStartMenu :programs="programs" />
+    <FakeStartMenu :programs="programs" @changeActive="changeActive" />
   </div>
 </template>
 
@@ -25,26 +36,43 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import FakeDesktopIcon from "@/components/widgets/FakeWindows/FakeDesktopIcon.vue";
-import FakeWindowManager from "@/components/widgets/FakeWindows/FakeWindowManager.vue";
-import { FakeProgram } from "@/types";
 import FakeStartMenu from "@/components/widgets/FakeWindows/FakeStartMenu.vue";
+import FakeWindow from "@/components/widgets/FakeWindows/FakeWindow.vue";
+import { FakeProgram, FakeProgramData } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",
   components: {
     FakeDesktopIcon,
-    FakeWindowManager,
     FakeStartMenu,
+    FakeWindow,
   },
   setup(props, { emit }) {
     const submit = (): void => {
       emit("submit");
     };
 
-    const programs = ref<FakeProgram[]>([
-      {
+    const minimize = (program: FakeProgram): void => {
+      program.minimized = true;
+      program.active = false;
+    };
+
+    const changeActive = (id: number): void => {
+      programs.value[id].minimized = !programs.value[id].minimized;
+      programs.value[id].active = !programs.value[id].active;
+    };
+
+    const open = (id: number): void => {
+      programs.value[id].open = true;
+      programs.value[id].minimized = false;
+      programs.value[id].active = true;
+    };
+
+    const programs = ref<FakeProgramData>({
+      0: {
+        id: 0,
         name: "aboutme.html",
         title: "About Me",
         open: false,
@@ -56,7 +84,8 @@ export default defineComponent({
         type: "html",
         active: false,
       },
-      {
+      1: {
+        id: 1,
         name: "dancingbaby.jpg",
         title: "Dancing Baby",
         open: false,
@@ -67,7 +96,8 @@ export default defineComponent({
         type: "jpg",
         active: false,
       },
-      {
+      2: {
+        id: 2,
         name: "https://www.keepingcurrentmatters.com",
         title: "Keeping Current Matters",
         open: false,
@@ -78,11 +108,21 @@ export default defineComponent({
         type: "html",
         active: false,
       },
-    ]);
+    });
+
+    const openPrograms = computed(() => {
+      return Object.values(programs.value).filter((program) => {
+        return program.open;
+      });
+    });
 
     return {
-      submit,
       programs,
+      openPrograms,
+      open,
+      minimize,
+      changeActive,
+      submit,
     };
   },
   props: {
