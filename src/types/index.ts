@@ -5,4 +5,5 @@ export interface FakeProgram {
   minimized: boolean;
   data: string;
   type: string;
+  active: boolean;
 }

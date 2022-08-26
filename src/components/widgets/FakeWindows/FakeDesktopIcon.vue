@@ -45,6 +45,7 @@ export default defineComponent({
     const open = (program: FakeProgram): void => {
       program.open = true;
       program.minimized = false;
+      program.active = true;
     };
 
     return {
@@ -64,6 +65,7 @@ export default defineComponent({
           minimized: false,
           data: `no data`,
           type: "png",
+          active: false,
         };
       },
     },

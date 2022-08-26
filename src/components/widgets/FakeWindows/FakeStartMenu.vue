@@ -1,6 +1,6 @@
 <template>
   <div class="fake-start-bar">
-    <button @click="toggleMenu" :class="{ 'menu-open': menuOpened }">
+    <button @click="toggleMenu" :class="{ active: menuOpened }">
       Start
       <div
         v-if="menuOpened"
@@ -22,6 +22,7 @@
     <button
       v-for="programOpen in programsOpen"
       :key="programOpen"
+      :class="{ active: programOpen.active }"
       @click="handleMenuClick(programOpen)"
     >
       {{ programOpen.name }}
@@ -65,7 +66,7 @@
     }
   }
 
-  button.menu-open {
+  button.active {
     border-top: inset 0.2rem $black;
     border-left: inset 0.2rem $black;
     border-bottom: inset 0.2rem $white;
@@ -96,6 +97,7 @@ export default defineComponent({
             minimized: false,
             data: `no data`,
             type: "png",
+            active: false,
           },
         ];
       },
@@ -117,6 +119,7 @@ export default defineComponent({
     const handleMenuClick = (program: FakeProgram): void => {
       program.open = true;
       program.minimized = !program.minimized;
+      program.active = !program.active;
     };
 
     return {

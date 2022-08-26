@@ -2,11 +2,19 @@
   <div class="step-zero-wrapper">
     <div class="step-content step-zero-content">
       <div class="button-wrapper">
+        <div class="button-bolts-row">
+          <div @click="screwBolt" class="button-bolt button-bolt-1"></div>
+          <div @click="screwBolt" class="button-bolt button-bolt-2"></div>
+        </div>
         <button @click="submit()">
           <span v-if="!pressed && showPressMe2">You know you want to</span>
           <span v-else-if="!pressed && showPressMe">Press Me</span>
           <span v-else-if="pressed">YAY!</span>
         </button>
+        <div class="button-bolts-row">
+          <div @click="screwBolt" class="button-bolt button-bolt-3"></div>
+          <div @click="screwBolt" class="button-bolt button-bolt-4"></div>
+        </div>
       </div>
     </div>
     <nav>
@@ -60,8 +68,53 @@
       height: 20rem;
       width: 20rem;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
+
+      .button-bolts-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .button-bolt {
+          border: 1px solid $black;
+          border-radius: 50%;
+          width: 1rem;
+          height: 1rem;
+          margin: 0.5rem;
+          background: $grey;
+          box-shadow: 0.1rem 0.1rem 0.1rem 0 $grey3;
+
+          &.bolt-lost {
+            background: black;
+            box-shadow: none;
+          }
+          &:after {
+            position: relative;
+            left: 0;
+            top: 50%;
+            height: 1px;
+            background: $black;
+            content: "";
+            width: 100%;
+            display: block;
+            transition: transform 0.3s linear;
+          }
+          &.button-bolt-1:after {
+            transform: var(--button-bolt);
+          }
+          &.button-bolt-2:after {
+            transform: var(--button-bolt);
+          }
+          &.button-bolt-3:after {
+            transform: var(--button-bolt);
+          }
+          &.button-bolt-4:after {
+            transform: var(--button-bolt);
+          }
+        }
+      }
 
       button {
         background: $red;
@@ -89,11 +142,25 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
   name: "StepZero",
   setup(props, { emit }) {
+    // random rotation for the 'bolts' on the button
+    onMounted(() => {
+      Object.values(
+        document.getElementsByClassName(
+          "button-bolt"
+        ) as HTMLCollectionOf<HTMLElement>
+      ).forEach((buttonBolt, index) => {
+        buttonBolt.style.setProperty(
+          "--button-bolt",
+          `rotate(${Math.floor(Math.random() * 360)}deg)`
+        );
+      });
+    });
+
     const submit = (): void => {
       pressed.value = true;
       setTimeout(() => {
@@ -118,8 +185,32 @@ export default defineComponent({
       showPressMe2.value = true;
     }, 20000);
 
+    const screwBolt = (e: PointerEvent): void => {
+      if (e === null || e.target === null) {
+        return;
+      }
+
+      const target = e.target as HTMLElement;
+
+      if (target.classList.contains("bolt-lost")) {
+        return;
+      }
+
+      const loseBolt = Math.floor(Math.random() * 50);
+      if (loseBolt === 0) {
+        target.classList.add("bolt-lost");
+        return;
+      }
+
+      target.style.setProperty(
+        "--button-bolt",
+        `rotate(${Math.floor(Math.random() * 360)}deg)`
+      );
+    };
+
     return {
       submit,
+      screwBolt,
       pressed,
       showPressMe,
       showPressMe2,

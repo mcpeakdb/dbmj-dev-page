@@ -103,6 +103,7 @@ export default defineComponent({
           minimized: false,
           data: `no data`,
           type: "png",
+          active: false,
         };
       },
     },

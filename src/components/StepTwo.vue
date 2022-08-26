@@ -54,6 +54,7 @@ export default defineComponent({
           <span>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></span>
         </div>`,
         type: "html",
+        active: false,
       },
       {
         name: "dancingbaby.jpg",
@@ -64,6 +65,7 @@ export default defineComponent({
           src="https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg"
         /></div>`,
         type: "jpg",
+        active: false,
       },
       {
         name: "https://www.keepingcurrentmatters.com",
@@ -74,6 +76,7 @@ export default defineComponent({
           src="https://www.keepingcurrentmatters.com"
         />`,
         type: "html",
+        active: false,
       },
     ]);
 

@@ -7,7 +7,7 @@
         title="aboutme.html"
         :program="program"
         @close="program.open = false"
-        @minimize="program.minimized = true"
+        @minimize="minimize(program)"
       >
       </FakeWindow>
     </span>
@@ -36,10 +36,21 @@ export default defineComponent({
             minimized: false,
             data: `no data`,
             type: "png",
+            active: false,
           },
         ];
       },
     },
+  },
+  setup() {
+    const minimize = (program: FakeProgram): void => {
+      program.minimized = true;
+      program.active = false;
+    };
+
+    return {
+      minimize,
+    };
   },
 });
 </script>
