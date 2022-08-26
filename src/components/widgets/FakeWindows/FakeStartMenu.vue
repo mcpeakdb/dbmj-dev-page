@@ -1,20 +1,27 @@
 <template>
   <div class="fake-start-bar">
     <button @click="toggleMenu" :class="{ active: menuOpened }">
+      <img src="./icons/start.png" alt="start icon" />
       Start
-      <div v-if="menuOpened" class="fake-start-menu">
-        <div style="padding: 0; margin: 0">Start Menu</div>
-        <div style="padding: 0; margin: 0">Start Menu</div>
-        <div style="padding: 0; margin: 0">Start Menu</div>
-        <div style="padding: 0; margin: 0">Start Menu</div>
-      </div>
     </button>
+
+    <div v-if="menuOpened" class="fake-start-menu">
+      <div style="padding: 0; margin: 0">Start Menu</div>
+      <div style="padding: 0; margin: 0">Start Menu</div>
+      <div style="padding: 0; margin: 0">Start Menu</div>
+      <div style="padding: 0; margin: 0">Start Menu</div>
+    </div>
+
     <button
       v-for="programOpen in programsOpen"
       :key="programOpen"
       :class="{ active: programOpen.active }"
       @click="handleItemClick(programOpen.id)"
     >
+      <img
+        :src="getImgUrl(programTypeImage(programOpen.type))"
+        :alt="programOpen.name"
+      />
       {{ programOpen.name }}
     </button>
 
@@ -45,6 +52,13 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-weight: bold;
+
+    img {
+      height: 15px;
+      vertical-align: bottom;
+    }
+
     &.taskbar {
       float: right;
       padding-left: 1rem;
@@ -54,6 +68,7 @@
       border-bottom: inset 0.2rem $white;
       border-right: inset 0.2rem $white;
       text-overflow: clip;
+      font-weight: normal;
     }
   }
 
@@ -106,6 +121,20 @@ export default defineComponent({
   },
   emits: ["changeActive"],
   setup(props, { emit }) {
+    const programTypeImage = (type: string): string => {
+      if (["png", "jpg", "jpeg"].includes(type)) {
+        return "jpg";
+      } else if (["com", "html"].includes(type)) {
+        return "html";
+      } else {
+        return type;
+      }
+    };
+
+    const getImgUrl = (pic: string): string => {
+      return require("./icons/" + pic + "_95.png");
+    };
+
     const menuOpened = ref<boolean>(false);
 
     const toggleMenu = (): void => {
@@ -131,6 +160,8 @@ export default defineComponent({
       menuOpened,
       toggleMenu,
       handleItemClick,
+      programTypeImage,
+      getImgUrl,
     };
   },
 });

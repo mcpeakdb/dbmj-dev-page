@@ -1,6 +1,6 @@
 <template>
   <div @click="open(program)" class="fake-desktop-icon-wrapper">
-    <img :src="getImgUrl(programTypeImage)" :alt="program.name" />
+    <img :src="getImgUrl(programTypeImage(program.type))" :alt="program.name" />
     <p>{{ program.title }}</p>
   </div>
 </template>
@@ -26,15 +26,15 @@ export default defineComponent({
   name: "FakeDesktopIcon",
   emits: ["open"],
   setup(props, { emit }) {
-    const programTypeImage = computed((): string => {
-      if (["png", "jpg", "jpeg"].includes(props.program.type)) {
+    const programTypeImage = (type: string): string => {
+      if (["png", "jpg", "jpeg"].includes(type)) {
         return "jpg";
-      } else if (["com", "html"].includes(props.program.type)) {
+      } else if (["com", "html"].includes(type)) {
         return "html";
       } else {
-        return props.program.type;
+        return type;
       }
-    });
+    };
 
     const getImgUrl = (pic: string): string => {
       return require("./icons/" + pic + "_95.png");
