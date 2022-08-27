@@ -2,7 +2,7 @@ import FakeStartMenuComponent from "../components/widgets/FakeWindows/FakeStartM
 import FakeStartMenuDocs from "./docs/FakeStartMenu.docs.mdx";
 
 export default {
-  title: "Components/Widgets/FakeWindows/FakeStartMenu",
+  title: "Components/Widgets/Fake Windows/Fake Start Menu",
   component: FakeStartMenuComponent,
   parameters: {
     docs: {
@@ -19,7 +19,7 @@ const Template = (args, { updateArgs }) => ({
     };
   },
   template:
-    "<fake-start-menu-component v-bind='args' @changeActive='changeActive'/>",
+    "<div style='height:200px'><div style='height:164px'></div><fake-start-menu-component v-bind='args' @changeActive='changeActive'/></div>",
   methods: {
     changeActive(id) {
       args.programs[id].minimized = !args.programs[id].minimized;
@@ -38,6 +38,7 @@ FakeStartMenu.args = {
       open: true,
       active: true,
       minimized: false,
+      type: "png",
     },
     1: {
       id: 1,
@@ -45,6 +46,7 @@ FakeStartMenu.args = {
       open: true,
       active: false,
       minimized: true,
+      type: "html",
     },
     2: {
       id: 2,
@@ -52,6 +54,7 @@ FakeStartMenu.args = {
       open: false,
       active: false,
       minimized: false,
+      type: "txt",
     },
   },
 };

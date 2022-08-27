@@ -15,4 +15,5 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  iframeHeight: "100%"
 };

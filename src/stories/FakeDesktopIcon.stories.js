@@ -2,7 +2,7 @@ import FakeDesktopIconComponent from "../components/widgets/FakeWindows/FakeDesk
 import FakeDesktopIconDocs from "./docs/FakeDesktopIcon.docs.mdx";
 
 export default {
-  title: "Components/Widgets/FakeWindows/FakeDesktopIcon",
+  title: "Components/Widgets/Fake Windows/Fake Desktop Icon",
   component: FakeDesktopIconComponent,
   parameters: {
     docs: {

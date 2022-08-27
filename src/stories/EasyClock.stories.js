@@ -2,7 +2,7 @@ import EasyClockComponent from "../components/widgets/EasyClock.vue";
 import EasyClockDocs from "./docs/EasyClock.docs.mdx";
 
 export default {
-  title: "Components/Widgets/EasyClock",
+  title: "Components/Widgets/Easy Clock",
   component: EasyClockComponent,
   parameters: {
     docs: {

@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { FakeProgram } from "@/types";
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "FakeDesktopIcon",
@@ -37,7 +37,7 @@ export default defineComponent({
     };
 
     const getImgUrl = (pic: string): string => {
-      return require("./icons/" + pic + "_95.png");
+      return require("../../../assets/icons/" + pic + "_95.png");
     };
 
     const open = (program: FakeProgram): void => {

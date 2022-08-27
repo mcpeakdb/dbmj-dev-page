@@ -2,7 +2,7 @@ import FakeWindowComponent from "../components/widgets/FakeWindows/FakeWindow.vu
 import FakeWindowDocs from "./docs/FakeWindow.docs.mdx";
 
 export default {
-  title: "Components/Widgets/FakeWindows/FakeWindow",
+  title: "Components/Widgets/Fake Windows/Fake Window",
   component: FakeWindowComponent,
   parameters: {
     docs: {

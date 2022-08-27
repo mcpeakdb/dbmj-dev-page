@@ -1,16 +1,18 @@
 <template>
   <div class="fake-start-bar">
-    <button @click="toggleMenu" :class="{ active: menuOpened }">
-      <img src="./icons/start.png" alt="start icon" />
-      Start
-    </button>
+    <span>
+      <button @click="toggleMenu" :class="{ active: menuOpened }">
+        <img src="../../../assets/icons/start.png" alt="start icon" />
+        Start
+      </button>
 
-    <div v-if="menuOpened" class="fake-start-menu">
-      <div style="padding: 0; margin: 0">Start Menu</div>
-      <div style="padding: 0; margin: 0">Start Menu</div>
-      <div style="padding: 0; margin: 0">Start Menu</div>
-      <div style="padding: 0; margin: 0">Start Menu</div>
-    </div>
+      <div v-if="menuOpened" class="fake-start-menu">
+        <div style="padding: 0; margin: 0">Start Menu</div>
+        <div style="padding: 0; margin: 0">Start Menu</div>
+        <div style="padding: 0; margin: 0">Start Menu</div>
+        <div style="padding: 0; margin: 0">Start Menu</div>
+      </div>
+    </span>
 
     <button
       v-for="programOpen in programsOpen"
@@ -34,7 +36,7 @@
   background-color: $minisoftGrey;
   border-top: ridge 0.2rem $white;
   height: 2rem;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -80,7 +82,7 @@
   }
 
   .fake-start-menu {
-    position: fixed;
+    position: absolute;
     bottom: 36px;
     left: 0px;
     background: grey;
@@ -132,7 +134,7 @@ export default defineComponent({
     };
 
     const getImgUrl = (pic: string): string => {
-      return require("./icons/" + pic + "_95.png");
+      return require("../../../assets/icons/" + pic + "_95.png");
     };
 
     const menuOpened = ref<boolean>(false);

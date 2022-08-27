@@ -3,7 +3,7 @@
     v-if="program.open"
     v-show="!program.minimized"
     class="fake-window"
-    :class="isMaximized ? 'maximize' : ''"
+    :class="{ maximize: isMaximized }"
     ref="fakeWindow"
   >
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
@@ -43,18 +43,18 @@
 <style lang="scss">
 .fake-window {
   border: 0.2rem inset lightgrey;
-  max-height: calc(100% - 2rem);
+  max-height: calc(100%);
   max-width: 100%;
   width: fit-content;
   box-sizing: border-box;
-  position: fixed;
+  position: absolute;
   background-color: white;
   top: 5rem;
   left: 5rem;
 
   &.maximize {
     width: 100%;
-    height: calc(100% - 2rem);
+    height: calc(100%);
     top: 0;
     left: 0;
   }
@@ -109,7 +109,7 @@
     &.fake-editor-window {
       box-sizing: border-box;
       padding: 1rem;
-      background-image: url("./backgrounds/OldPaper.gif");
+      background-image: url("../../../assets/backgrounds/OldPaper.gif");
       width: 100%;
     }
   }
@@ -143,7 +143,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const close = (): void => {
       isMaximized.value = false;
-      emit("close");
+      emit("close", props.program.id);
     };
     const minimize = (): void => {
       emit("minimize", props.program.id);

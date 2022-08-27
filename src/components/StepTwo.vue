@@ -1,119 +1,32 @@
 <template>
   <div class="step-content step-two-content animate-screen-on">
-    <div class="fake-desktop">
-      <FakeDesktopIcon
-        v-for="program in programs"
-        :key="program.name"
-        :program="program"
-        @open="open"
-      />
-      <FakeWindow
-        v-for="program in openPrograms"
-        :key="program.name"
-        title="aboutme.html"
-        :program="program"
-        @close="program.open = false"
-        @minimize="minimize"
-      >
-      </FakeWindow>
-    </div>
-    <FakeStartMenu :programs="programs" @changeActive="changeActive" />
+    <FakeWindows @submit="submit" />
   </div>
 </template>
 
 <style lang="scss">
 #app .step-content.step-two-content {
-  text-align: left;
-  background-color: $dbm-green;
   padding: 0;
-  overflow: hidden;
-  .fake-desktop {
-    display: relative;
-  }
+  height: 100%;
 }
 </style>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import FakeDesktopIcon from "@/components/widgets/FakeWindows/FakeDesktopIcon.vue";
-import FakeStartMenu from "@/components/widgets/FakeWindows/FakeStartMenu.vue";
-import FakeWindow from "@/components/widgets/FakeWindows/FakeWindow.vue";
+import { defineComponent, ref } from "vue";
+import FakeWindows from "@/components/widgets/FakeWindows/FakeWindows.vue";
 import { FakeProgramData } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",
   components: {
-    FakeDesktopIcon,
-    FakeStartMenu,
-    FakeWindow,
+    FakeWindows,
   },
   setup(props, { emit }) {
     const submit = (): void => {
       emit("submit");
     };
 
-    const minimize = (id: number): void => {
-      programs.value[id].minimized = true;
-      programs.value[id].active = false;
-    };
-
-    const changeActive = (id: number): void => {
-      programs.value[id].minimized = !programs.value[id].minimized;
-      programs.value[id].active = !programs.value[id].active;
-    };
-
-    const open = (id: number): void => {
-      programs.value[id].open = true;
-      programs.value[id].minimized = false;
-      programs.value[id].active = true;
-    };
-
-    const programs = ref<FakeProgramData>({
-      0: {
-        id: 0,
-        name: "aboutme.txt",
-        title: "About Me",
-        open: false,
-        minimized: false,
-        data: `<p><h1>Hello!</h1>My name is Danny McPeak Jr</p>
-          <p>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></p>`,
-        type: "txt",
-        active: false,
-      },
-      1: {
-        id: 1,
-        name: "dancingbaby.jpg",
-        title: "Dancing Baby",
-        open: false,
-        minimized: false,
-        data: `https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg`,
-        type: "jpg",
-        active: false,
-      },
-      2: {
-        id: 2,
-        name: "https://www.keepingcurrentmatters.com",
-        title: "Keeping Current Matters",
-        open: false,
-        minimized: false,
-        data: `https://www.keepingcurrentmatters.com`,
-        type: "html",
-        active: false,
-      },
-    });
-
-    const openPrograms = computed(() => {
-      return Object.values(programs.value).filter((program) => {
-        return program.open;
-      });
-    });
-
     return {
-      programs,
-      openPrograms,
-      open,
-      minimize,
-      changeActive,
       submit,
     };
   },
