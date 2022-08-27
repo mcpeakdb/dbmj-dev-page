@@ -2,7 +2,6 @@
   <MainLayout>
     <StepZero v-if="step === 0" :finalStep="finalStep" @submit="setStep(1)" />
     <StepOne v-if="step === 1" :finalStep="finalStep" @submit="setStep(2)" />
-    <StepTwo v-if="step === 2" :finalStep="finalStep" @submit="setStep(3)" />
   </MainLayout>
 </template>
 
@@ -11,7 +10,6 @@ import { defineComponent, ref } from "vue";
 import MainLayout from "@/views/layouts/MainLayout.vue";
 import StepZero from "@/components/StepZero.vue";
 import StepOne from "@/components/StepOne.vue";
-import StepTwo from "@/components/StepTwo.vue";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
@@ -20,11 +18,10 @@ export default defineComponent({
     MainLayout,
     StepZero,
     StepOne,
-    StepTwo,
   },
   setup() {
     const step = ref(0);
-    const finalStep = 2;
+    const finalStep = 1;
 
     const setStep = (newStep: number): void => {
       step.value = newStep;

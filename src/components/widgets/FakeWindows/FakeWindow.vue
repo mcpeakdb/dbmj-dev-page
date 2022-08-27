@@ -3,11 +3,17 @@
     v-if="program.open"
     v-show="!program.minimized"
     class="fake-window"
-    :class="{ maximize: isMaximized }"
+    :class="{ maximize: isMaximized, active: program.active }"
     ref="fakeWindow"
   >
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
-      {{ program.name }}
+      <div>
+        <img
+          :src="getImgUrl(programTypeImage(program.type))"
+          :alt="program.name"
+        />
+        {{ program.name }}
+      </div>
       <div>
         <button @click="minimize"><span>&#128469;&#xFE0E;</span></button>
         <button v-if="isMaximized" @click.prevent="unmaximize">
@@ -51,6 +57,13 @@
   top: 5rem;
   left: 5rem;
 
+  &.active {
+    z-index: 2;
+    .fake-window-topbar {
+      background-color: $dbm-blue;
+    }
+  }
+
   &.maximize {
     width: 100%;
     height: calc(100%);
@@ -61,10 +74,15 @@
   .fake-window-topbar {
     display: flex;
     justify-content: space-between;
-    background-color: $dbm-blue;
+    background-color: $grey6;
     color: $white;
     padding: 0.2rem 0.4rem;
     align-items: center;
+
+    img {
+      height: 1rem;
+      padding-right: 0.2rem;
+    }
 
     div {
       display: flex;
@@ -113,6 +131,7 @@
 import { FakeProgram } from "@/types";
 import FakeBrowser from "./FakeWindowTypes/FakeBrowser.vue";
 import { defineComponent, ref } from "vue";
+import { programTypeImage, getImgUrl } from "./helpers";
 
 export default defineComponent({
   name: "FakeWindow",
@@ -228,6 +247,8 @@ export default defineComponent({
       maximize,
       unmaximize,
       dragMouseDown,
+      programTypeImage,
+      getImgUrl,
     };
   },
 });

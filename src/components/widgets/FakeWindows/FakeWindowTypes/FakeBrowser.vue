@@ -1,9 +1,10 @@
 <template>
   <div class="fake-browser-window fake-window-content">
     <div class="fake-browser-toolbar">
-      <input v-model="temporaryUrl" />
+      <span>Address: </span>
+      <input v-model="temporaryUrl" @keyup.enter="submit" />
     </div>
-    <iframe :src="browserUrl" />
+    <iframe :src="browserUrl" :onload="chkFrame" />
   </div>
 </template>
 
@@ -14,17 +15,36 @@
 
   .fake-browser-toolbar {
     background: $minisoftGrey;
+    padding: 0 0.6rem;
+    position: relative;
+    &:after {
+      position: absolute;
+      content: "";
+      left: 2px;
+      background: $minisoftGrey;
+      border-top: ridge 0.1rem $white;
+      border-left: ridge 0.1rem $white;
+      border-bottom: ridge 0.1rem $black;
+      border-right: ridge 0.1rem $black;
+      box-sizing: border-box;
+      top: 10%;
+      height: 80%;
+    }
     input {
       margin: 0.2rem;
+      height: 1.4rem;
       max-width: calc(100% - 0.8rem);
       width: 600px;
+      padding: 0 0 0 0.2rem;
     }
   }
 
   iframe {
     position: absolute;
     border: none;
-    height: calc(100% - 2em - 28px);
+    height: calc(
+      100% - 2rem - 1.8rem
+    ); // 100% - height of topbar - height of toolbar
     width: 100%;
   }
 }
@@ -49,7 +69,13 @@ export default defineComponent({
       browserUrl.value = temporaryUrl.value;
     };
 
-    return { browserUrl, temporaryUrl, submit };
+    const chkFrame = (): void => {
+      alert(
+        "Apologies if this page didn't load... cross-origin makes creating a mock browser tough!"
+      );
+    };
+
+    return { browserUrl, temporaryUrl, submit, chkFrame };
   },
 });
 </script>

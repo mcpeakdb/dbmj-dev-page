@@ -96,6 +96,7 @@
 import { computed, defineComponent, ref } from "vue";
 import EasyClock from "../EasyClock.vue";
 import { FakeProgramData } from "@/types";
+import { programTypeImage, getImgUrl } from "./helpers";
 
 export default defineComponent({
   name: "FakeStartMenu",
@@ -124,20 +125,6 @@ export default defineComponent({
   },
   emits: ["changeActive"],
   setup(props, { emit }) {
-    const programTypeImage = (type: string): string => {
-      if (["png", "jpg", "jpeg"].includes(type)) {
-        return "jpg";
-      } else if (["com", "html"].includes(type)) {
-        return "html";
-      } else {
-        return type;
-      }
-    };
-
-    const getImgUrl = (pic: string): string => {
-      return require("../../../assets/icons/" + pic + "_95.png");
-    };
-
     const menuOpened = ref<boolean>(false);
 
     const toggleMenu = (): void => {

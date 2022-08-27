@@ -61,9 +61,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const submit = (): void => {
       emit("submit");
-      setTimeout(() => {
-        document.body.style.backgroundColor = "black";
-      }, 500);
     };
 
     return {
