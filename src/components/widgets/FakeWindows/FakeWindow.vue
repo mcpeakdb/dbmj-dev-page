@@ -25,10 +25,9 @@
     >
       <img :src="program.data" />
     </div>
-    <iframe
+    <FakeBrowser
       v-else-if="['html'].includes(program.type)"
-      class="fake-browser-window fake-window-content"
-      :src="program.data"
+      :url="program.data"
     />
     <div
       v-else-if="['txt'].includes(program.type)"
@@ -100,13 +99,6 @@
       }
     }
 
-    &.fake-browser-window {
-      width: 100%;
-      min-width: 60vw;
-      min-height: 60vh;
-      border: none;
-    }
-
     &.fake-editor-window {
       box-sizing: border-box;
       padding: 1rem;
@@ -119,10 +111,14 @@
 
 <script lang="ts">
 import { FakeProgram } from "@/types";
+import FakeBrowser from "./FakeWindowTypes/FakeBrowser.vue";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "FakeWindow",
+  components: {
+    FakeBrowser,
+  },
   props: {
     program: {
       type: Object,
@@ -167,7 +163,6 @@ export default defineComponent({
       }
       e = e || window.event;
       e.preventDefault();
-      e.stopPropagation();
 
       // get the mouse cursor position at startup:
       pos3 = e.clientX;
@@ -180,7 +175,6 @@ export default defineComponent({
     function elementDrag(e: MouseEvent): void {
       e = e || window.event;
       e.preventDefault();
-      e.stopPropagation();
 
       // calculate the new cursor position:
       pos1 = pos3 - e.clientX;

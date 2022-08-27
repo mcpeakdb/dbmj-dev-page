@@ -16,7 +16,7 @@
         @minimize="minimize"
         @maximize="maximize"
         @unmaximize="unmaximize"
-        @click="makeActive(program.id)"
+        @mousedown="makeActive(program.id)"
       >
       </FakeWindow>
     </div>
@@ -46,7 +46,7 @@ import FakeWindow from "./FakeWindow.vue";
 import { programData } from "./programs";
 
 export default defineComponent({
-  name: "StepTwo",
+  name: "FakeWindows",
   components: {
     FakeDesktopIcon,
     FakeStartMenu,
