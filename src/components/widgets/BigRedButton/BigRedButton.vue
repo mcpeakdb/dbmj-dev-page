@@ -1,6 +1,6 @@
 <template>
-  <div class="button-wrapper" :class="{ unscrewed: bolts === 0 }">
-    <div v-if="bolts" class="button-bolts-row">
+  <div class="button-wrapper" :class="{ unscrewed: !screws }">
+    <div v-if="screws" class="button-bolts-row">
       <ButtonScrew @unscrew="unscrew()" />
       <ButtonScrew @unscrew="unscrew()" />
     </div>
@@ -9,7 +9,7 @@
       <span v-else-if="!pressed && showPressMe">Press Me</span>
       <span v-else-if="pressed">YAY!</span>
     </button>
-    <div v-if="bolts" class="button-bolts-row">
+    <div v-if="screws" class="button-bolts-row">
       <ButtonScrew @unscrew="unscrew()" />
       <ButtonScrew @unscrew="unscrew()" />
     </div>
@@ -104,11 +104,11 @@ export default defineComponent({
 
     const unscrew = (): void => {
       setTimeout(() => {
-        bolts.value--;
+        screws.value--;
       }, 500);
     };
 
-    const bolts = ref<number>(4);
+    const screws = ref<number>(4);
 
     return {
       submit,
@@ -116,7 +116,7 @@ export default defineComponent({
       pressed,
       showPressMe,
       showPressMe2,
-      bolts,
+      screws,
     };
   },
 });

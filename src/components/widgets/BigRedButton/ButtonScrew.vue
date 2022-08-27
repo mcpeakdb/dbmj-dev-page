@@ -20,7 +20,7 @@
   cursor: pointer;
 
   &.bolt-lost {
-    background: black;
+    background: $black;
     box-shadow: none;
     cursor: default;
   }

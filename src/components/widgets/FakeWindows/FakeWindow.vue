@@ -42,13 +42,13 @@
 
 <style lang="scss">
 .fake-window {
-  border: 0.2rem inset lightgrey;
+  border: 0.2rem inset #d3d3d3;
   max-height: calc(100%);
   max-width: 100%;
   width: fit-content;
   box-sizing: border-box;
   position: absolute;
-  background-color: white;
+  background-color: $white;
   top: 5rem;
   left: 5rem;
 
@@ -62,8 +62,8 @@
   .fake-window-topbar {
     display: flex;
     justify-content: space-between;
-    background-color: navy;
-    color: white;
+    background-color: $dbm-blue;
+    color: $white;
     padding: 0.2rem 0.4rem;
     align-items: center;
 
@@ -77,10 +77,10 @@
         background-color: #c0c0c0;
         margin: 0 0 0 0.4rem;
         padding: 0.1rem 0.3rem;
-        border-top: ridge 0.2rem white;
-        border-left: ridge 0.2rem white;
-        border-bottom: ridge 0.2rem black;
-        border-right: ridge 0.2rem black;
+        border-top: ridge 0.2rem $white;
+        border-left: ridge 0.2rem $white;
+        border-bottom: ridge 0.2rem $black;
+        border-right: ridge 0.2rem $black;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -91,7 +91,7 @@
   .fake-window-content {
     height: calc(100% - 32px);
     &.fake-image-window {
-      background-color: black;
+      background-color: $black;
       display: flex;
       justify-content: center;
       img {
