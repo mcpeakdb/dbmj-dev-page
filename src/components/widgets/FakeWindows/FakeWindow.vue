@@ -96,6 +96,7 @@
       justify-content: center;
       img {
         align-self: center;
+        max-height: 100%;
       }
     }
 

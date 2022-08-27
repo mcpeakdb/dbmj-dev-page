@@ -26,7 +26,9 @@
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 1rem 0 $grey3;
   height: 20rem;
+  max-height: 80vh;
   width: 20rem;
+  max-width: 80vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

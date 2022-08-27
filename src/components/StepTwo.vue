@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 #app .step-content.step-two-content {
   padding: 0;
   height: 100%;
@@ -12,9 +12,8 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import FakeWindows from "@/components/widgets/FakeWindows/FakeWindows.vue";
-import { FakeProgramData } from "@/types";
 
 export default defineComponent({
   name: "StepTwo",

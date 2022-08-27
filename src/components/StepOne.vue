@@ -5,17 +5,18 @@
       <h2>Welcome to my sandbox of web development!</h2>
       <h3>
         Press 1 to Start Over. Press 2 to skip to the end. <br />Press any other
-        key to continue<span v-if="!keyPressed">...</span
-        ><span v-if="!keyPressed" class="cursor">&nbsp;</span>
+        key to continue...<span v-if="!keyPressed" class="cursor">&nbsp;</span>
       </h3>
+      <div v-if="keyPressed">{{ keyPressed }}</div>
+      <br />
       <div class="typewriter" v-if="keyPressed === '1'">
         Starting over...<span class="cursor">&nbsp;</span>
       </div>
       <div class="typewriter" v-else-if="keyPressed === '2'">
-        Skipping to the end...<span class="cursor">&nbsp;</span>
+        Loading the end..<span class="cursor">&nbsp;</span>
       </div>
       <div class="typewriter" v-else-if="keyPressed">
-        Loading the 1990s...<span class="cursor">&nbsp;</span>
+        Loading...<span class="cursor">&nbsp;</span>
       </div>
     </div>
   </div>
@@ -31,6 +32,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  word-break: break-word;
 
   &::before {
     content: " ";
@@ -62,7 +64,6 @@
 
   .typewriter {
     overflow: hidden;
-    white-space: nowrap;
     margin: 0 auto;
     animation: typing 3.5s steps(40, end);
     padding-bottom: 2rem;
@@ -146,11 +147,13 @@
 }
 
 @keyframes typing {
-  from {
+  0% {
     width: 0;
+    white-space: nowrap;
   }
-  to {
+  100% {
     width: 100%;
+    white-space: normal;
   }
 }
 </style>
@@ -189,7 +192,7 @@ export default defineComponent({
     };
 
     const mouseupSubmit = (): void => {
-      submit("mouse");
+      submit("MouseClick");
     };
 
     window.addEventListener("keyup", keyupSubmit);
