@@ -35,15 +35,15 @@
 .fake-start-bar {
   background-color: $minisoftGrey;
   border-top: ridge 0.2rem $white;
-  height: 2rem;
-  position: relative;
+  box-sizing: border-box;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
 
   button {
     background-color: transparent;
-    height: 95%;
+    height: 2rem;
     margin: 0 0.2rem;
     padding: 0 0.4rem;
     border-top: ridge 0.2rem $white;
