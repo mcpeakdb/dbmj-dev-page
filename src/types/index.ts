@@ -4,6 +4,7 @@ export interface FakeProgram {
   title: string;
   open: boolean;
   minimized: boolean;
+  maximized: boolean;
   data: string;
   type: string;
   active: boolean;

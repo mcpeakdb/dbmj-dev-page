@@ -14,10 +14,13 @@
         :program="program"
         @close="close"
         @minimize="minimize"
+        @maximize="maximize"
+        @unmaximize="unmaximize"
+        @click="makeActive(program.id)"
       >
       </FakeWindow>
     </div>
-    <FakeStartMenu :programs="programs" @changeActive="changeActive" />
+    <FakeStartMenu :programs="programs" @changeActive="makeActive" />
   </div>
 </template>
 
@@ -60,22 +63,39 @@ export default defineComponent({
 
     const open = (id: number): void => {
       programs.value[id].open = true;
-      programs.value[id].minimized = false;
-      programs.value[id].active = true;
+      makeActive(id);
     };
 
     const close = (id: number): void => {
       programs.value[id].open = false;
+      changeAllToInactive();
     };
 
     const minimize = (id: number): void => {
       programs.value[id].minimized = true;
-      programs.value[id].active = false;
+      changeAllToInactive();
     };
 
-    const changeActive = (id: number): void => {
-      programs.value[id].minimized = !programs.value[id].minimized;
-      programs.value[id].active = !programs.value[id].active;
+    const maximize = (id: number): void => {
+      programs.value[id].maximized = true;
+      makeActive(id);
+    };
+
+    const unmaximize = (id: number): void => {
+      programs.value[id].maximized = false;
+      makeActive(id);
+    };
+
+    const makeActive = (id: number): void => {
+      changeAllToInactive();
+      programs.value[id].minimized = false;
+      programs.value[id].active = true;
+    };
+
+    const changeAllToInactive = (): void => {
+      Object.values(programs.value).forEach((program) => {
+        program.active = false;
+      });
     };
 
     const submit = (): void => {
@@ -88,7 +108,9 @@ export default defineComponent({
       open,
       close,
       minimize,
-      changeActive,
+      maximize,
+      unmaximize,
+      makeActive,
       submit,
     };
   },

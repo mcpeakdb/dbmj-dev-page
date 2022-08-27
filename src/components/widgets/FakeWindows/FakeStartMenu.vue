@@ -113,6 +113,7 @@ export default defineComponent({
             title: "file",
             open: false,
             minimized: false,
+            maximized: false,
             data: `no data`,
             type: "png",
             active: false,

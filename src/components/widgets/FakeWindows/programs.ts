@@ -7,6 +7,7 @@ export const programData: FakeProgramData = {
     title: "About Me",
     open: false,
     minimized: false,
+    maximized: false,
     data: `<p><h1>Hello!</h1>My name is Danny McPeak Jr</p>
         <p>I am a Sr. Full Stack Developer at Keeping Current Matters <i>(a link to our website is on the 'desktop')</i></p>`,
     type: "txt",
@@ -18,6 +19,7 @@ export const programData: FakeProgramData = {
     title: "Dancing Baby",
     open: false,
     minimized: false,
+    maximized: false,
     data: `https://upload.wikimedia.org/wikipedia/en/c/ce/DancingBaby.jpg`,
     type: "jpg",
     active: false,
@@ -28,6 +30,7 @@ export const programData: FakeProgramData = {
     title: "Keeping Current Matters",
     open: false,
     minimized: false,
+    maximized: false,
     data: `https://www.keepingcurrentmatters.com`,
     type: "html",
     active: false,

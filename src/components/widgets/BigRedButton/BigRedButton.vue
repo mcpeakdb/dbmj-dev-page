@@ -1,17 +1,17 @@
 <template>
-  <div class="button-wrapper">
-    <div class="button-bolts-row">
-      <ButtonScrew @unscrew="unscrew(0)" />
-      <ButtonScrew @unscrew="unscrew(1)" />
+  <div class="button-wrapper" :class="{ unscrewed: bolts === 0 }">
+    <div v-if="bolts" class="button-bolts-row">
+      <ButtonScrew @unscrew="unscrew()" />
+      <ButtonScrew @unscrew="unscrew()" />
     </div>
     <button @click="submit()">
       <span v-if="!pressed && showPressMe2">You know you want to</span>
       <span v-else-if="!pressed && showPressMe">Press Me</span>
       <span v-else-if="pressed">YAY!</span>
     </button>
-    <div class="button-bolts-row">
-      <ButtonScrew @unscrew="unscrew(2)" />
-      <ButtonScrew @unscrew="unscrew(3)" />
+    <div v-if="bolts" class="button-bolts-row">
+      <ButtonScrew @unscrew="unscrew()" />
+      <ButtonScrew @unscrew="unscrew()" />
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@
 <style lang="scss">
 .button-wrapper {
   background: $grey6;
+  box-sizing: border-box;
   border-right: 0.2rem solid $grey3;
   border-bottom: 0.2rem solid $grey3;
   border-left: 0.2rem solid $grey9;
@@ -31,8 +32,14 @@
   max-width: 80vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+
+  &.unscrewed {
+    background: url("../../../assets/backgrounds/motherboard.jpg");
+    background-size: 200%;
+    border-width: 0.5rem;
+  }
 
   .button-bolts-row {
     display: flex;
@@ -95,9 +102,13 @@ export default defineComponent({
       showPressMe2.value = true;
     }, 20000);
 
-    const unscrew = (id: number): void => {
-      console.log("unscrew " + id);
+    const unscrew = (): void => {
+      setTimeout(() => {
+        bolts.value--;
+      }, 500);
     };
+
+    const bolts = ref<number>(4);
 
     return {
       submit,
@@ -105,6 +116,7 @@ export default defineComponent({
       pressed,
       showPressMe,
       showPressMe2,
+      bolts,
     };
   },
 });

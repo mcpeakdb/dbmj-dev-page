@@ -9,14 +9,14 @@
     <div class="fake-window-topbar" @mousedown="dragMouseDown">
       {{ program.name }}
       <div>
-        <button @click="minimize()"><span>&#128469;&#xFE0E;</span></button>
-        <button v-if="isMaximized" @click="unmaximize()">
+        <button @click="minimize"><span>&#128469;&#xFE0E;</span></button>
+        <button v-if="isMaximized" @click.prevent="unmaximize">
           <span>&#128471;&#xFE0E;</span>
         </button>
-        <button v-else @click="maximize()">
+        <button v-else @click.prevent="maximize">
           <span>&#x1F5D6;&#xFE0E;</span>
         </button>
-        <button @click="close()"><span>&#10006;&#xFE0E;</span></button>
+        <button @click.prevent="close"><span>&#10006;&#xFE0E;</span></button>
       </div>
     </div>
     <div
@@ -133,6 +133,7 @@ export default defineComponent({
           title: "file",
           open: false,
           minimized: false,
+          maximized: false,
           data: `no data`,
           type: "png",
           active: false,
@@ -140,13 +141,15 @@ export default defineComponent({
       },
     },
   },
-  emits: ["close", "minimize"],
+  emits: ["close", "minimize", "maximize", "unmaximize"],
   setup(props, { emit }) {
-    const close = (): void => {
+    const close = (e: Event): void => {
+      e.stopPropagation();
       isMaximized.value = false;
       emit("close", props.program.id);
     };
-    const minimize = (): void => {
+    const minimize = (e: Event): void => {
+      e.stopPropagation();
       emit("minimize", props.program.id);
     };
     const fakeWindow = ref<HTMLElement>();
@@ -164,6 +167,7 @@ export default defineComponent({
       }
       e = e || window.event;
       e.preventDefault();
+      e.stopPropagation();
 
       // get the mouse cursor position at startup:
       pos3 = e.clientX;
@@ -176,6 +180,7 @@ export default defineComponent({
     function elementDrag(e: MouseEvent): void {
       e = e || window.event;
       e.preventDefault();
+      e.stopPropagation();
 
       // calculate the new cursor position:
       pos1 = pos3 - e.clientX;
@@ -201,20 +206,24 @@ export default defineComponent({
 
     const isMaximized = ref<boolean>(false);
 
-    function maximize(): void {
+    function maximize(e: Event): void {
+      e.stopPropagation();
       if (fakeWindow.value) {
         fakeWindow.value.style.top = "0px";
         fakeWindow.value.style.left = "0px";
       }
       isMaximized.value = true;
+      emit("maximize", props.program.id);
     }
 
-    function unmaximize(): void {
+    function unmaximize(e: Event): void {
+      e.stopPropagation();
       if (fakeWindow.value) {
         fakeWindow.value.style.top = windowTop.value;
         fakeWindow.value.style.left = windowLeft.value;
       }
       isMaximized.value = false;
+      emit("unmaximize", props.program.id);
     }
 
     return {
