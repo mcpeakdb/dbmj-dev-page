@@ -1,8 +1,10 @@
 <template>
   <div
     @click="screwBolt"
+    ref="buttonBolt"
     class="button-bolt"
-    :class="{ 'bolt-lost': lostBolt }"
+    :class="{ 'bolt-lost': !screwDistance }"
+    :style="`--button-bolt: rotate(${screwRotation}deg)`"
   ></div>
 </template>
 
@@ -38,7 +40,7 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "ButtonBolt",
@@ -48,49 +50,24 @@ export default defineComponent({
     const screwRotation = ref<number>(Math.floor(Math.random() * 360));
     const screwDistance = ref<number>(Math.floor(Math.random() * 20) + 8);
 
-    onMounted(() => {
-      Object.values(
-        document.getElementsByClassName(
-          "button-bolt"
-        ) as HTMLCollectionOf<HTMLElement>
-      ).forEach((buttonBolt) => {
-        buttonBolt.style.setProperty(
-          "--button-bolt",
-          `rotate(${screwRotation.value}deg)`
-        );
-      });
-    });
-
-    const lostBolt = ref<boolean>(false);
-
-    const screwBolt = (e: PointerEvent): void => {
-      if (e === null || e.target === null) {
-        return;
-      }
-
-      const target = e.target as HTMLElement;
-
-      if (lostBolt.value) {
+    const screwBolt = (): void => {
+      if (!screwDistance.value) {
         return;
       }
 
       screwRotation.value =
         screwRotation.value - (Math.floor(Math.random() * 90) + 15);
-      target.style.setProperty(
-        "--button-bolt",
-        `rotate(${screwRotation.value}deg)`
-      );
 
       screwDistance.value = screwDistance.value - 1;
       if (screwDistance.value === 0) {
-        lostBolt.value = true;
         emit("unscrew");
         return;
       }
     };
 
     return {
-      lostBolt,
+      screwDistance,
+      screwRotation,
       screwBolt,
     };
   },
