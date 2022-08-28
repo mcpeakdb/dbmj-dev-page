@@ -44,7 +44,7 @@
   button {
     background-color: transparent;
     height: 2rem;
-    margin: 0 0.2rem;
+    margin: 0.1rem 0.2rem;
     padding: 0 0.4rem;
     border-top: ridge 0.2rem $white;
     border-left: ridge 0.2rem $white;

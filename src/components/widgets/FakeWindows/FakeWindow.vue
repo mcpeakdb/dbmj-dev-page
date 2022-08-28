@@ -3,44 +3,29 @@
     v-if="program.open"
     v-show="!program.minimized"
     class="fake-window"
-    :class="{ maximize: isMaximized, active: program.active }"
+    :class="{ maximize: program.maximized, active: program.active }"
     ref="fakeWindow"
   >
-    <div class="fake-window-topbar" @mousedown="dragMouseDown">
-      <div>
-        <img
-          :src="getImgUrl(programTypeImage(program.type))"
-          :alt="program.name"
-        />
-        {{ program.name }}
-      </div>
-      <div>
-        <button @click="minimize"><span>&#128469;&#xFE0E;</span></button>
-        <button v-if="isMaximized" @click.prevent="unmaximize">
-          <span>&#128471;&#xFE0E;</span>
-        </button>
-        <button v-else @click.prevent="maximize">
-          <span>&#x1F5D6;&#xFE0E;</span>
-        </button>
-        <button @click.prevent="close"><span>&#10006;&#xFE0E;</span></button>
-      </div>
-    </div>
-    <div
+    <FakeWindowTopBar
+      @close="close"
+      @minimize="minimize"
+      @maximize="maximize"
+      @unmaximize="unmaximize"
+      @mousedown="dragMouseDown"
+      :program="program"
+    />
+    <FakeImageViewer
       v-if="['jpg', 'jpeg', 'png'].includes(program.type)"
-      class="fake-image-window fake-window-content"
-    >
-      <img :src="program.data" />
-    </div>
+      :file="program"
+    />
     <FakeBrowser
       v-else-if="['html'].includes(program.type)"
       :url="program.data"
     />
-    <div
+    <FakeTextEditor
       v-else-if="['txt'].includes(program.type)"
-      v-html="program.data"
-      class="fake-editor-window fake-window-content"
-      :class="program.type + '-file-type'"
-    ></div>
+      :file="program"
+    />
     <div v-else class="fake-window-content">No Program for this file type</div>
   </div>
 </template>
@@ -59,9 +44,6 @@
 
   &.active {
     z-index: 2;
-    .fake-window-topbar {
-      background-color: $dbm-blue;
-    }
   }
 
   &.maximize {
@@ -71,58 +53,8 @@
     left: 0;
   }
 
-  .fake-window-topbar {
-    display: flex;
-    justify-content: space-between;
-    background-color: $grey6;
-    color: $white;
-    padding: 0.2rem 0.4rem;
-    align-items: center;
-
-    img {
-      height: 1rem;
-      padding-right: 0.2rem;
-    }
-
-    div {
-      display: flex;
-
-      button {
-        width: 26px !important;
-        height: 26px !important;
-        font-weight: bold;
-        background-color: #c0c0c0;
-        margin: 0 0 0 0.4rem;
-        padding: 0.1rem 0.3rem;
-        border-top: ridge 0.2rem $white;
-        border-left: ridge 0.2rem $white;
-        border-bottom: ridge 0.2rem $black;
-        border-right: ridge 0.2rem $black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-
   .fake-window-content {
     height: calc(100% - 32px);
-    &.fake-image-window {
-      background-color: $black;
-      display: flex;
-      justify-content: center;
-      img {
-        align-self: center;
-        max-height: 100%;
-      }
-    }
-
-    &.fake-editor-window {
-      box-sizing: border-box;
-      padding: 1rem;
-      background-image: url("../../../assets/backgrounds/OldPaper.gif");
-      width: 100%;
-    }
   }
 }
 </style>
@@ -130,13 +62,18 @@
 <script lang="ts">
 import { FakeProgram } from "@/types";
 import FakeBrowser from "./FakeWindowTypes/FakeBrowser.vue";
+import FakeImageViewer from "./FakeWindowTypes/FakeImageViewer.vue";
+import FakeTextEditor from "./FakeWindowTypes/FakeTextEditor.vue";
+import FakeWindowTopBar from "./FakeWindowTopBar.vue";
 import { defineComponent, ref } from "vue";
-import { programTypeImage, getImgUrl } from "./helpers";
 
 export default defineComponent({
   name: "FakeWindow",
   components: {
     FakeBrowser,
+    FakeImageViewer,
+    FakeTextEditor,
+    FakeWindowTopBar,
   },
   props: {
     program: {
@@ -158,13 +95,10 @@ export default defineComponent({
   },
   emits: ["close", "minimize", "maximize", "unmaximize"],
   setup(props, { emit }) {
-    const close = (e: Event): void => {
-      e.stopPropagation();
-      isMaximized.value = false;
+    const close = (): void => {
       emit("close", props.program.id);
     };
-    const minimize = (e: Event): void => {
-      e.stopPropagation();
+    const minimize = (): void => {
       emit("minimize", props.program.id);
     };
     const fakeWindow = ref<HTMLElement>();
@@ -177,7 +111,7 @@ export default defineComponent({
       pos4 = 0;
 
     const dragMouseDown = (e: MouseEvent): void => {
-      if (isMaximized.value) {
+      if (props.program.maximized) {
         return;
       }
       e = e || window.event;
@@ -217,38 +151,29 @@ export default defineComponent({
       document.onmousemove = null;
     }
 
-    const isMaximized = ref<boolean>(false);
-
-    function maximize(e: Event): void {
-      e.stopPropagation();
+    function maximize(): void {
       if (fakeWindow.value) {
         fakeWindow.value.style.top = "0px";
         fakeWindow.value.style.left = "0px";
       }
-      isMaximized.value = true;
       emit("maximize", props.program.id);
     }
 
-    function unmaximize(e: Event): void {
-      e.stopPropagation();
+    function unmaximize(): void {
       if (fakeWindow.value) {
         fakeWindow.value.style.top = windowTop.value;
         fakeWindow.value.style.left = windowLeft.value;
       }
-      isMaximized.value = false;
       emit("unmaximize", props.program.id);
     }
 
     return {
       fakeWindow,
-      isMaximized,
       close,
       minimize,
       maximize,
       unmaximize,
       dragMouseDown,
-      programTypeImage,
-      getImgUrl,
     };
   },
 });
